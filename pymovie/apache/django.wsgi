@@ -6,5 +6,5 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 import django.core.handlers.wsgi
 application = django.core.handlers.wsgi.WSGIHandler()
 
-sys.path.append('/opt/website/movie/moviepy')
-sys.path.append('/opt/website/movie/pywikipedia')
+sys.path.append('/opt/website/moviepy/pymovie')
+#sys.path.append('/opt/website/movie/pywikipedia')
