@@ -94,14 +94,14 @@ STATICFILES_FINDERS = (
 #ADMIN_MEDIA_PREFIX = '/admin_media/'
 
 #Settaggi per toolbar
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-    #'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
-    #'EXTRA_SIGNALS': ['myproject.signals.MySignal'],
-    'HIDE_DJANGO_SQL': False,
-    'TAG': 'div',
-    'ENABLE_STACKTRACES' : True,
-}
+#DEBUG_TOOLBAR_CONFIG = {
+#    'INTERCEPT_REDIRECTS': False,
+#    #'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
+#    #'EXTRA_SIGNALS': ['myproject.signals.MySignal'],
+#    'HIDE_DJANGO_SQL': False,
+#    'TAG': 'div',
+#    'ENABLE_STACKTRACES' : True,
+#}
 
 
 # Make this unique, and don't share it with anybody.
@@ -158,7 +158,7 @@ INSTALLED_APPS = (
     'persone',
     'serietv',
     'link',
-    'debug_toolbar',
+   # 'debug_toolbar',
 )
 
 # A sample logging configuration. The only tangible logging
