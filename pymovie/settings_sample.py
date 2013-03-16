@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-     ('simdyd', 'simdyd@gmail.com'),
+     ('admin', 'admin@admin.com'),
 )
 
 MANAGERS = ADMINS
@@ -20,8 +20,6 @@ DATABASES = {
     }
 }
 
-#if you set this to true you need pywikipedia installed
-USE_WIKIPEDIA=True
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -42,29 +40,31 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/opt/website/movie/media_movie/'
+MEDIA_ROOT = '/opt/website/moviepy/media_movie/'
 
-PREVIEW_ROOT = '/media/mediavideo/preview/'
+PREVIEW_ROOT = '/opt/website/moviepy/media_movie/preview/'
 
 PREVIEW_KIND = 'ogg' #supportati ogg o flv omp4
 
-PATH_BASE = '/opt/website/movie/moviepy/'
+PATH_BASE = '/opt/website/moviepy/pymovie/'
 
-LOG_ROOT= '/opt/website/movie/media_movie/log/'
+LOG_ROOT= '/opt/website/moviepy/logs/'
+
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media_movie/'
 PREVIEW_URL = '/media_movie/preview/'
-MEDIA_PATH_SITE_REPOSITORY = "/opt/website/movie/moviepy/static/"
+MEDIA_PATH_SITE_REPOSITORY = "/opt/website/moviepy/pymovie/static/"
 MEDIA_URL_SITE_REPOSITORY = '/static/'
 
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
-#Path per trovare i file video
-FOLDER_VIDEO = '' 
+#cartella dei file dei video.
+FOLDER_VIDEO = ''
 
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '/opt/website/movie/moviepy/static/'
+STATIC_ROOT = '/opt/website/moviepy/pymovie/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -125,7 +125,7 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
-INTERNAL_IPS = ('127.0.0.1','192.168.2.6')
+INTERNAL_IPS = ('127.0.0.1',)
 
 ROOT_URLCONF = 'urls'
 
@@ -133,7 +133,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/opt/website/movie/moviepy/template/'
+    '/opt/website/moviepy/pymovie/template/'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -151,7 +151,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    #'bloom.device',
     'film',
     'media',
     'persone',
@@ -182,7 +181,7 @@ LOGGING = {
         'default': {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
-            'filename': '/opt/website/movie/logs/mylog.log',
+            'filename': '/opt/website/moviepy/logs/mylog.log',
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount': 5,
             'formatter':'standard',
@@ -191,7 +190,7 @@ LOGGING = {
         'movie_download': {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
-            'filename': '/opt/website/movie/logs/movie_download.log',
+            'filename': '/opt/website/moviepy/logs/movie_download.log',
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount': 5,
             'formatter':'standard',
@@ -199,7 +198,7 @@ LOGGING = {
         'request_handler': {
                 'level':'DEBUG',
                 'class':'logging.handlers.RotatingFileHandler',
-                'filename': '/opt/website/movie/logs/django_request.log',
+                'filename': '/opt/website/moviepy/logs/django_request.log',
                 'maxBytes': 1024*1024*5, # 5 MB
                 'backupCount': 5,
                 'formatter':'standard',
@@ -217,6 +216,11 @@ LOGGING = {
             'propagate': True
         },
         'movie_download': {
+            'handlers': ['movie_download'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        '35mm_download': {
             'handlers': ['movie_download'],
             'level': 'DEBUG',
             'propagate': True
