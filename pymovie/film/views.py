@@ -9,7 +9,8 @@ from download.download_filmtv import *
 from download.download_imdb import *
 from download.download_mymovies import *
 from download.downloadcoming import *
-from download.download_wikipedia import get_info_wikipedia
+if settings.USE_WIKIPEDIA==True:
+    from download.download_wikipedia import get_info_wikipedia
 from film.forms import SearchForm
 from film.models import *
 from media.models import Photo
@@ -373,7 +374,7 @@ def download_auto(link,tipo='35mm'):
     result=None
     link_foto=None
     movie=link.movie
-    if tipo=='wikipedia':
+    if (tipo=='wikipedia') and (settings.USE_WIKIPEDIA==True):
         result,persone=get_info_wikipedia(link.link)
         
     if tipo=='35mm':

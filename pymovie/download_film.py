@@ -1,13 +1,14 @@
+from django.conf import settings
 from film.models import *
 from film.views import *
 
-
-elenco_link=MovieLink.objects.filter(tipo='wikipedia',download=False)
-for link in elenco_link:
-    #film=Movie.objects.get(id=link.movie.id)
-    print 'id: ' + str(link.movie.id)
-    #print 'titolo : ' + film.titolo
-    download_auto(link,'wikipedia')
+if settings.USE_WIKIPEDIA==True:
+    elenco_link=MovieLink.objects.filter(tipo='wikipedia',download=False)
+    for link in elenco_link:
+        #film=Movie.objects.get(id=link.movie.id)
+        print 'id: ' + str(link.movie.id)
+        #print 'titolo : ' + film.titolo
+        download_auto(link,'wikipedia')
 
 elenco_link=MovieLink.objects.filter(tipo='35mm',download=False)
 for link in elenco_link:

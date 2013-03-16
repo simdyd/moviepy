@@ -5,7 +5,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import Context, loader, RequestContext
 from download.download import *
-from download.download_wikipedia import get_pers_wikipedia
+
+
 from film.models import Movie
 from film.views import get_default_parameter
 from media.models import Photo
@@ -17,6 +18,9 @@ import logging
 import os
 import sys
 import urllib
+
+if settings.USE_WIKIPEDIA==True:
+    from download.download_wikipedia import get_pers_wikipedia
 
 # Create your views here.
 logger_download = logging.getLogger('movie_download')
@@ -198,7 +202,7 @@ def download_pers(personalink):
         result=None
         if (personalink.tipo_link=='35mm'):
             result=get_pers_35mm(personalink.link)
-        if (personalink.tipo_link=='wikipedia'):
+        if (personalink.tipo_link=='wikipedia') and (settings.USE_WIKIPEDIA==True):
             
             result=get_pers_wikipedia(personalink.link)
             
