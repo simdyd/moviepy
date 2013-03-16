@@ -151,7 +151,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'bloom.device',
+    #'bloom.device',
     'film',
     'media',
     'persone',
