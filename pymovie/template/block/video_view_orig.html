@@ -1,0 +1,39 @@
+
+		{% for media in filmmedia %}
+		{% if forloop.first %}
+			<div class="box">
+	<h2>
+		Video Originale
+		<span class="l"></span><span class="r"></span>
+	</h2>
+	<div class="hide"><span class="s">Show</span><span class="h">Hide</span></div>
+	<div class="block">
+		<div class="block_in">
+		{% endif %}
+		{% ifequal media.tipo 'orig' %}
+		<!-- <div>
+			<video src="{{ media.file_url }}" controls="controls" type="video/avi">
+				your browser does not support the video tag
+			</video>
+		</div> -->
+		<div>
+			<object type="video/quicktime" data="{{ media.file_url }}" width="640" height="480">
+				<param name="controller" value="true" >
+				<param name="autoplay" value="false">
+			</object>
+		</div>
+		<h3><a href='{{media.file_url}}'>{{ media.file }}</a> </h3></br>
+		<p>Durata : {{ media.file_durata }}</br> 
+		Bitrate : {{ media.file_bitrate }}</br>
+		Dimesione : {{ media.file_size }} </br>
+		Dettagli video : {{ media.file_video }}</br> 
+		Dettagli audio : {{ media.file_audio }}</p>
+
+		{% endifequal %}
+		{% if forloop.last %}
+		</div>
+	</div>
+</div>
+		{% endif %}
+		{% endfor %}
+		

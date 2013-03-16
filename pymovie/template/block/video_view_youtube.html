@@ -1,0 +1,22 @@
+{% for media in filmmedia %}
+			{% if forloop.first %}
+		<div class="box">
+	<h2>
+		Video Youtube
+		<span class="l"></span><span class="r"></span>
+	</h2>
+	<div class="hide"><span class="s">Show</span><span class="h">Hide</span></div>
+	<div class="block">
+		<div class="block_in">
+		{% endif %}
+
+
+			{% ifequal media.tipo 'youtube' %}
+				<object width="640" height="385"><param name="movie" value="{{ media.file }}"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="{{ media.file }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="385"></embed></object>
+			{% endifequal %}
+			{% if forloop.last %}
+		</div>
+	</div>
+</div>
+		{% endif %}
+		{% endfor %}

@@ -1,0 +1,53 @@
+{% autoescape off %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="it" lang="it">
+    {% include "scheleton/header_mobile.html" %}
+    <body bgcolor="#FFFFFF" text="#000000">
+    	<script>
+    		function change_page_list(page,genere,supporto){
+				$.ajax({
+					type: "GET",
+					url: "/ws/change_list_page/",
+					data: "page="+page+"&genere="+genere+"&supporto="+supporto,
+					success: function(msg){
+						$("#pagination").html(msg);
+					}	
+				});
+
+			}
+    	</script>
+    	<div id='container'>
+		<div id="header">
+        <h1><a href='/mobile/'>Py Movie</a></h1>
+    		<div class="leftButton" onclick="toggleMenu()">Menu</div>
+        	{% include "film/elenco_generi_mobile.html" %}
+        	
+       	</div>
+       	
+       	<div id="content">
+       		<ul>
+       		{% for film in film_list.object_list %}
+       			<li>
+       				
+       			{{ film.titolo}}
+       			{% for foto in film.get_photo %}
+			{% if forloop.first %}
+				<img src="{{ foto.getLowUrl }}" width="93"  alt="photo 1" class="left" />
+						
+			{% endif %}
+		{% endfor %}
+       			</li>
+       		{% endfor %}
+       		</ul>
+       	</div>
+       	<div id="sidebar">
+       	</div>
+       	<div id="footer">
+       	</div>
+       	
+		</div><!--end container-->
+    </body>
+    
+</html>
+{% endautoescape %}

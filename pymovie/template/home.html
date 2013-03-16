@@ -1,0 +1,29 @@
+{% autoescape off %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="it" lang="it">
+    {% include "scheleton/header.html" %}
+    <body>
+    	{% include "scheleton/testata.html" %}
+        <div class="column colonna-123 last">
+        	
+            
+            <div class="column colonna-12">
+           
+            	{% include "film/ricerca_film.html" %}
+				
+                {% for film in film_list %}
+                    <p>{{ film.titolo }}</p>
+                {% endfor %}
+            </div>
+            <div class="column colonna-3 last">
+                {% for genere in generi_list %}
+                    <p>{{ genere.nome }}</p>
+                {% endfor %}
+            </div>
+        <div>
+            
+        {% include "scheleton/footer.html" %}
+    </body>
+    
+</html>
+{% endautoescape %}

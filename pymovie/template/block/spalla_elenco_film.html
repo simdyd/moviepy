@@ -1,0 +1,20 @@
+{% if persona %}
+
+<h3>{{ persona.nome }} {{ persona.cognome}}</h3>
+	{% if persona.has_photo %}
+	<a href='{{ persona.getMediumUrl }}'><img src='{{ persona.getLowUrl }}'></a>
+	{% endif %}
+{% endif %}
+{% if supporto %}
+	<h3>{{ supporto }}</h3>
+{% endif %}
+{% if anno %}
+	<h3>Anno {{ anno }}</h3>
+{% endif %}
+<ul class="list11">
+{% for movie in movie_list %}
+	<li>
+		<a href="/scheda/{{ movie.id }}/">{{ movie.titolo }}</a>
+	</li>
+{% endfor %}
+</ul>    

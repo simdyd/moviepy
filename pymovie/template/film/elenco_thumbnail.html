@@ -1,0 +1,6 @@
+<div class="centerbox">
+	{% for foto in film.get_photo %}
+		<a href='{{ foto.getUrl }}' target='_blank'><IMG id=mCover src="{{ foto.getLowUrl }}" width=95 border='0'></a>
+		
+	{% endfor %}
+</div>

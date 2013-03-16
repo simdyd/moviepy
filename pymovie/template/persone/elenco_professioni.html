@@ -1,0 +1,14 @@
+{% if professioni_list %}
+        	<dt>Full Professioni Lists</dt>
+			 {% for professione in professioni_list %}
+			 	{% if forloop.first %}
+					<dd class="first"><a href="/persone/elenco/{{ professione.id }}/">{{ professione.professione }}</a></dd>
+				{% endif %}
+				{% if forloop.last %}
+					<dd class="last"><a href="/persone/elenco/{{ professione.id }}/">{{ professione.professione }}</a></dd>
+				{% endif %}
+				{% if not forloop.last and not forloop.first %}
+				 	<dd><a href="/persone/elenco/{{ professione.id }}/">{{ professione.professione }}</a></dd>
+                {% endif %}
+              {% endfor %}
+{% endif %}

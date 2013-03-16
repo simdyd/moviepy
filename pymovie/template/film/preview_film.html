@@ -1,0 +1,46 @@
+<script>
+	$(function() {
+		$( "#tabs" ).tabs();
+	});
+	</script>
+	<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">Preview</a></li>
+		<li><a href="#tabs-2">Esterni</a></li>
+		<li><a href="#tabs-3">Originali</a></li>
+	</ul>
+	<div id="tabs-1">
+		{% for media in filmmedia %}
+			{% ifequal media.tipo 'local' %}
+<div class="centerbox">
+	<video src="{{ media.file }}" controls="controls">
+		your browser does not support the video tag
+	</video>
+</div>
+{% endifequal %}
+		{% endfor %}
+	</div>
+	<div id="tabs-2">
+		{% for media in filmmedia %}
+			
+
+
+			{% ifequal media.tipo 'youtube' %}
+<object width="640" height="385"><param name="movie" value="{{ media.file }}"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="{{ media.file }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="385"></embed></object>
+{% endifequal %}
+		{% endfor %}
+	</div>
+	<div id="tabs-3">
+		{% for media in filmmedia %}
+		{% ifequal media.tipo 'orig' %}
+	<embed type="application/x-vlc-plugin"
+         name="video{{media.id}}"
+         autoplay="no" loop="no" width="400" height="300" 
+         target="{{ media.file_url }}" />
+		<h3><a href='{{media.file_url}}'>{{ media.file }}</a> {{ media.file_durata }} {{ media.file_video }} {{ media.file_audio }}</h3>
+
+{% endifequal %}
+
+{% endfor %}
+	</div>
+	

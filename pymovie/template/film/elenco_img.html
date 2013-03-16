@@ -1,0 +1,84 @@
+<div class="box">
+							<h2>
+								Basic Table
+								<span class="l"></span><span class="r"></span>
+							</h2>
+							<div class="block">
+								<div class="block_in">
+<div>
+	<span class="step-links">
+		{% if film_list.has_previous %}
+			<a href="#" onclick="change_page_list({{ film_list.previous_page_number }},{{ genere }},{{ supporto }},{% if no_thumbnail %}{{ no_thumbnail}}{% else %}0{% endif %},{% if no_video %}{{ no_video}}{% else %}0{% endif %})">previous</a>
+		{% endif %}
+
+		<span class="current">
+			Page {{ film_list.number }} of {{ film_list.paginator.num_pages }}.
+		</span>
+		
+		
+		{% if film_list.has_next %}
+			<a href="#" onclick="change_page_list({{ film_list.next_page_number }},{{ genere }},{{ supporto }},{% if no_thumbnail %}{{ no_thumbnail}}{% else %}0{% endif %},{% if no_video %}{{ no_video}}{% else %}0{% endif %})">next</a>
+		{% endif %}
+	</span>
+</div>
+<ul class="site_content">
+{% for film in film_list.object_list %}
+	{% if forloop.first %}
+		<hr>
+	{% endif %}
+		<div class="grid_12">
+    	<h1><a onmouseover="mostra_detail_film_spalla({{ film.id }});return false;">{{ film.titolo}}</a></h1>
+    	</div>
+    	<div class="grid_2">
+		{% if film.get_thumbnail %}
+			
+			<img src="{{ film.get_thumbnail.getLowUrl }}" width="93"  alt="photo 1" class="left" />
+		{% else %}
+				<img src="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/noimage.jpg" width="93"  alt="photo 1" class="left" />
+		{% endif %}
+		</div>
+		<div class="grid_5">
+        <p><b>Genere: </b>{{ film.genere }}</p>
+		<p><b>Durata: </b>{{ film.durata }}</p>
+		<p><b>Anno: </b>{{ film.anno }}</p>
+		</div>
+		<div class="grid_5">
+			
+		<p><b>Id: </b>{{ film.id }}</p>
+		<p><b>Supporto: </b>{% for supporto in film.get_supporti %}<a href='/supporto/{{ supporto.id }}/' onmouseover="mostra_elenco_film_spalla({{ supporto.id }},'S');return false;">{{ supporto.nome }}</a> {% endfor %}
+			
+		<p><b>Regia:</b> {% for regista in film.get_regista %}<a href='/persone/scheda/{{ regista.id }}/' onmouseover="mostra_elenco_film_spalla({{ regista.id }},'R');return false;">{{ regista.nome }} {{ regista.cognome }}</a> {% endfor %}</p>
+		</div>
+		{% if not film.video_file %}
+		<div class="grid_12" align='center'>
+			<p>Attenzione file non presente</p>
+		</div>
+		{% endif %}
+		<div class="grid_12" align='center'>
+		<p><a href="/scheda/{{ film.id }}/" class="button medium blue">Scheda</a>
+		{% if user.is_superuser %}<a target="_blank" href="/admin/film/movie/{{ film.id }}/" class="button medium blue"> admin </a>{% endif %}
+		</p>
+		
+		</div>
+	    <hr>         
+                  
+{% endfor %}
+</ul>
+<div>
+	<span class="step-links">
+		{% if film_list.has_previous %}
+			<a href="#" onclick="change_page_list({{ film_list.previous_page_number }},{{ genere }},{{ supporto }},{% if no_thumbnail %}{{ no_thumbnail}}{% else %}0{% endif %},{% if no_video %}{{ no_video}}{% else %}0{% endif %})">previous</a>
+		{% endif %}
+
+		<span class="current">
+			Page {{ film_list.number }} of {{ film_list.paginator.num_pages }}.
+		</span>
+
+		{% if film_list.has_next %}
+			<a href="#" onclick="change_page_list({{ film_list.next_page_number }},{{ genere }},{{ supporto }},{% if no_thumbnail %}{{ no_thumbnail}}{% else %}0{% endif %},{% if no_video %}{{ no_video}}{% else %}0{% endif %})">next</a>
+		{% endif %}
+	</span>
+</div>
+</div>
+							</div>
+						</div>

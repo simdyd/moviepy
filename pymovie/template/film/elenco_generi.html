@@ -1,0 +1,13 @@
+{% if generi_list %}
+<li><a href="#">Elenco Generi<span class="icon6"></span></a>
+					<ul>	 
+						{% for genere in generi_list %}
+							<li><a href="/genere/{{ genere.id }}/">{{ genere.nome }}</a></li>
+						{% endfor %}
+						
+						
+					</ul>
+				</li>
+{% endif %}
+        	
+            

@@ -1,0 +1,24 @@
+{% if form_persone %}
+<div class="grid_4">
+	<div class="box">
+		<h2>
+			Ricerca Persona
+			<span class="l"></span><span class="r"></span>
+		</h2>
+		
+		<div class="block">
+			<div class="block_in">
+		<form name='form_search_persona' method='post' action='/persone/ricerca/' >
+				{% csrf_token %}
+                {{ form_persone.as_p }}
+                    
+				<br />
+				<p><input align='center' type='submit' name='cerca_persone' value='cerca'></p>
+				
+			
+   		</form>
+			</div>
+   		</div>
+   </div>
+</div>
+{% endif %}

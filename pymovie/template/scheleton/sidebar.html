@@ -1,0 +1,15 @@
+<section class="sidebar">
+			<a class="logo" href="/"></a>
+			<form method="get" id="searchform" action="#">
+				<input placeholder="Search..." type="text" name="s" id="s" />
+			</form>
+			<ul id="menu">
+				<li><a href="index.html">Dashboard<span class="icon1"></span></a></li>
+				{% include "film/elenco_generi.html" %}
+				{% include "film/elenco_supporti.html" %}
+				{% include "persone/elenco_professioni.html" %}
+              		
+				
+				
+			</ul><!--End of #menu-->
+		</section><!-- End of .sidebar -->

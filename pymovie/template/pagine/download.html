@@ -1,0 +1,24 @@
+{% autoescape off %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="it" lang="it">
+    {% include "scheleton/header.html" %}
+    <body bgcolor="#FFFFFF" text="#000000">
+        <div class="column colonna-123 last">
+        	{% for titolo in res %}
+				<p><a href='/download/{{ tipo }}/{{film_id}}/{{ titolo.link }}/'>{{ titolo.titolo }}</a> Anno: {{ titolo.anno }}</p>
+			{% endfor %} 
+			
+			{% ifequal res 'ok' %}
+				<script>document.location='/scheda/{{film_id}}/';</script>
+			{% endifequal %} 
+			<p><a href='/admin/film/movie/{{film_id}}/'>Admin</a></p>
+        	<p><a href='/scheda/{{film_id}}/'>Scheda</a></p>
+			<p><a href='/'>home</a></p>
+        <div>
+            
+        
+    </body>
+    
+</html>
+{% endautoescape %}

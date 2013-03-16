@@ -1,0 +1,18 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% block object-tools %}
+{% if change %}{% if not is_popup %}
+  <ul class="object-tools">
+    <li><a href="history/" class="historylink">{% trans "History" %}</a></li>
+    <li><a href="/scheda/{{ original.id }}/" class="historylink">Scheda</a></li>
+  	<li><a href="/download/35mm/{{ original.id }}/" class="historylink">Download 35mm</a></li>
+  	<li><a href="/download/filmtv/{{ original.id }}/" class="historylink">Download film.tv.it</a></li>
+  	<li><a href="/download/comingsoon/{{ original.id }}/" class="historylink">Download comingsoon</a></li>
+    {% if has_absolute_url %}
+        <li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="viewsitelink">
+            {% trans "View on site" %}</a>
+        </li>
+    {% endif%}
+  </ul>
+{% endif %}{% endif %}
+{% endblock %}

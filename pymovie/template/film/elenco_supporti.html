@@ -1,0 +1,13 @@
+{% if supporti_list %}
+<li><a href="#">Elenco Supporti<span class="icon6"></span></a>
+					<ul>	 
+						{% for supporto in supporti_list %}
+							<li><a href="/supporto/{{ supporto.id }}/">{{ supporto.nome }}</a></li>
+						{% endfor %}
+						
+						
+					</ul>
+				</li>
+{% endif %}
+        	
+            

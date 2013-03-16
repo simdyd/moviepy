@@ -1,0 +1,29 @@
+<script type="text/javascript">
+			jQuery(document).ready(function($){
+			  $('.lightbox').lightbox();
+			});
+		</script>
+
+<div class="grid_8">
+	<div class="box">
+							<h2>
+								<a href='/scheda/{{film.id}}/' alt='torna alla scheda'>{{ film.titolo }}</a>
+								<span class="l"></span><span class="r"></span>
+							</h2>
+							<h3>&nbsp;({{ film.anno }})</h3> 
+	
+	
+			
+<div class="block">
+	<div class="block_in">
+
+	<div id='elenco_thumb'>
+	{% for foto in film.get_photo %}
+		
+		<a href='{{ foto.getUrl }}' class="lightbox"><img src="{{ foto.getLowUrl }}"></a>
+		
+	{% endfor %}
+	</div>
+</div>
+</div>
+</div></div>

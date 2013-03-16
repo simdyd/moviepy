@@ -1,0 +1,21 @@
+<div class="grid_6">
+{% for foto in persona.get_photo %}
+	{% if forloop.first %}
+		<img src="{{ foto.getLowUrl }}" width="93"  alt="photo 1" class="left" />
+	{% endif %}
+{% endfor %}
+{% ifequal persona.has_photo 0 %}
+	<img src="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/noimage.jpg" width="93"  alt="photo 1" class="left" />
+{% endifequal %}
+</div>
+<div class="grid_6">			
+				{% if persona.data_nascita %}
+					<p><b>Data Nascita: </b>{{ persona.data_nascita }}</p>
+				{% endif %}
+				{% if persona.luogo_nascita %}
+					<p><b>Luogo Nascita: </b>{{ persona.luogo_nascita }}</p>
+				{% endif %}
+				{% if persona.sesso %}
+					<p><b>Sesso: </b>{{ persona.sesso }}</p>
+				{% endif %}
+</div>

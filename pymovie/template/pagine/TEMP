@@ -1,0 +1,70 @@
+{% include "scheleton/testata.html" %}
+        	
+        	<dl id="browse">
+        	  {% include "film/elenco_generi.html" %}
+			  {% include "persone/elenco_professioni.html" %}
+              {% include "film/ricerca_film.html" %}
+			  {% include "persone/ricerca_persona.html" %}
+            
+			</dl>
+            
+			<div id="body">
+            <div class="inner">
+        	{% ifequal page_tipe 'scheda' %}
+				
+            	{% include "film/scheda.html" %}
+            	
+			{% endifequal  %}
+            
+			{% ifequal page_tipe 'scheda_persona' %}
+				
+            	{% include "persone/scheda.html" %}
+            	
+			{% endifequal  %}
+            
+			{% ifequal page_tipe 'elenco_persone' %}
+				
+            	{% include "persone/elenco_persone.html" %}
+            	
+			{% endifequal  %}
+				
+			{% ifequal page_tipe 'gallery' %}
+				
+            	{% include "film/gallery.html" %}
+            	
+			{% endifequal  %}
+			
+            {% ifequal page_tipe 'home' %}
+				<div id="pagination">
+            	{% include "film/elenco_img.html" %}
+            	</div>
+				
+			{% endifequal %}
+            
+			{% ifequal page_tipe 'supporto' %}
+				<div id="pagination">
+            	{% include "film/elenco_img.html" %}
+            	</div>
+				
+			{% endifequal %}
+			
+			{% ifequal page_tipe 'supporto_lista' %}
+				<div id="pagination">
+            	{% include "film/elenco_txt.html" %}
+            	</div>
+				
+			{% endifequal %}
+			
+			
+       		</div><!-- end .inner -->
+	  
+          </div><!-- end body -->
+		 <div id='browser'>
+       	{% include "film/spalla_destra.html" %}
+		</div>  
+       
+	   
+        {% include "scheleton/footer.html" %}
+    </body>
+    
+</html>

@@ -1,0 +1,28 @@
+{% for persona in persone.object_list %}
+	<div class="{% cycle 'leftbox' 'rightbox' %}">
+    	<h3>{{ persona.nome }} {{ persona.cognome }}</h3>
+		{% include 'persone/dettagli_persona.html' %}
+		<p class="readmore"><a href="/persone/scheda/{{ persona.id }}/"><b>Scheda</b></a></p>
+		{% if user.is_superuser %}<a href="/admin/persone/persona/{{ persona.id }}/" class="button medium blue"> admin </a>{% endif %}
+	<div class="clear"></div>
+	</div><!-- end .leftbox -->
+                  
+                 
+    {% cycle '' '<div class="clear br"></div>' %}    
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if persone.has_previous %}
+            <a href="?page={{ persone.previous_page_number }}">precedente</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ persone.number }} of {{ persone.paginator.num_pages }}.
+        </span>
+
+        {% if persone.has_next %}
+            <a href="?page={{ persone.next_page_number }}">prossima</a>
+        {% endif %}
+    </span>
+</div>

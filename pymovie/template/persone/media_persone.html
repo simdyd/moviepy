@@ -1,0 +1,23 @@
+<script type="text/javascript">
+			jQuery(document).ready(function($){
+			  $('.lightbox').lightbox();
+			});
+		</script>
+						<div class="box">
+							<h2>
+								Foto
+								<span class="l"></span><span class="r"></span>
+							</h2>
+							<div class="hide"><span class="s">Show</span><span class="h">Hide</span></div>
+							<div class="block">
+								<ul class="gallery">
+
+	
+	{% for foto in persona.get_photo %}
+		<li>
+		<a href='{{ foto.getUrl }}' class="lightbox"><img src="{{ foto.getLowUrl }}" width=95 border='0'></a>
+		</li>
+	{% endfor %}
+	</ul>
+	</div>
+	</div>

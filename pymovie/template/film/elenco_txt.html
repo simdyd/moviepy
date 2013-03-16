@@ -1,0 +1,39 @@
+<div >
+	{{ supporto.nome }}
+<table width='520px' align='center'>
+            	<tr >
+            		
+					<td class='testata'>&nbsp;</td>
+					<td class='testata'>Durata</td>
+					<td class='testata'>Categoria</td>
+					<td class='testata'>Anno</td>
+					<td class='testata'>Regista</td>
+					
+					
+			
+				</tr>
+		
+                {% for film in film_list %}
+					<tr >
+						<td class='riga1'><a href='/scheda/{{ film.id }}/' alt='scheda'><img src='{{ MEDIA_URL_SITE_REPOSITORY }}grafica/film.gif'></a></td>
+						<td class='riga1' colspan=4 border=1 bordercolor='$bordercolor1' align='center'>{{ film.titolo }}</td>
+						
+					</tr>
+					<tr >
+					<td class='riga2'>{{ film.id }}</td>
+					<td class='riga2' align=center>{{ film.durata }}</td>
+					<td class='riga2'>{{ film.genere}}</td>
+					<td class='riga2'>{{ film.anno }}</td>
+					<td class='riga2'>
+						{% for regista in film.get_regista %}
+							{{ regista.nome }} {{ regista.cognome }} <br/ > 
+						{% endfor %}
+					</td>
+								
+					</tr>
+					<tr height=4></tr>
+                
+                {% endfor %}
+				</table>
+				
+</div>

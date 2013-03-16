@@ -1,0 +1,378 @@
+<TABLE cellSpacing=1 cellPadding=0 width=\"100%\" border=0>
+<TBODY>
+		<TR>
+    				<TD id=mTagline vAlign=top bordercolor={{ bordercolor1 }} align=left >&nbsp;</TD>
+    			</TR>
+    			<TR> 
+					<TD colSpan=2>
+						<DIV align=left>
+						<FONT style=\"FONT-SIZE: 12pt; FONT-FAMILY: Tahoma\" size=3><EM><B>
+						 {{ film.titolo }}
+						</B></EM>&nbsp;({{ film.anno }})</FONT> &nbsp; 
+						</DIV>
+        			<DIV align=right></DIV></TD>
+				</TR>
+    			<TR> 
+      				<td>&nbsp;</td>
+    			</TR>
+  			</TBODY>
+			</TABLE>
+			<TABLE style=\"MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px; WORD-SPACING: 0px\" borderColor={{ bordercolor2 }} height=577 cellSpacing=0 cellPadding=2 width=\"100%\" border=1>
+  			<TBODY>
+  				<TR>
+    				<TD vAlign=top align=left width=\"9%\" height=214>
+      					<DIV align=center><BR>
+							{% for foto in film.get_photo %}
+								{% if forloop.first %}
+									<IMG id=mCover src="{{ foto.getLowUrl }}" width=95 border='0'>
+								{% endif %}
+							{% endfor %}
+	  	  					
+	   					
+						<BR><BR></DIV>
+						
+							
+      					<TABLE cellPadding=1 width=112 align=center border=0>
+			        	<TBODY>
+        					<TR>
+          						<TD bgColor={{ bgcolor6 }}><SPAN class=style13><FONT color={{ textcolor1 }}>
+		   							visto / non visto
+		       					</FONT></SPAN></TD>
+							</TR>
+        					<TR>
+          						<TD bgcolor={{ bgcolor1 }}>
+            						<DIV align=center>
+			
+										__visto__
+			
+									</DIV>
+								</TD>
+							</TR>
+        					<TR>
+          						<TD bgColor={{ bgcolor6 }}><SPAN class=style44>cdbox id </SPAN></TD>
+							</TR>
+        					<TR>
+          						<TD bgColor={{ bgcolor5 }}>
+            						<DIV class=\"style14 style33\" align=center><FONT color={{ textcolor1 }}>
+									{% for supporto in film.get_supporti %}
+										{% if forloop.first %}
+											{{ supporto.nome }}
+										{% else %}
+											, {{ supporto.nome }}
+										{% endif %}
+									{% endfor %}
+									</FONT></DIV>
+								</TD>
+							</TR>
+        					<TR>
+			          			<TD class=style14 bgColor={{ bgcolor6 }}><SPAN class=style19>status:</SPAN></TD>
+							</TR>
+        					<TR>
+          						<TD bgColor={{ bgcolor5 }}>
+            						<DIV align=center><SPAN class=style18>
+			
+									__stato__
+			
+									</SPAN></DIV>
+								</TD>
+							</TR>
+        					<TR>
+	          					<TD bgColor={{ bgcolor6 }}><SPAN class=style13><FONT color={{ textcolor1 }}>ncd:</FONT></SPAN></TD>
+							</TR>
+        					<TR>
+          						<TD bgColor={{ bgcolor5 }}>
+            						<DIV class=\"style10 style11\" align=center><FONT color={{ textcolor1 }}><SPAN class=style33>			
+									 __ncd__
+			
+									</SPAN></FONT></DIV>
+								</TD>
+							</TR>
+        					<TR>
+          						<TD bgColor= {{ bgcolor6 }}><SPAN class=style13><FONT color={{ textcolor1 }}>length:</FONT></SPAN></TD>
+							</TR>
+        					<TR>
+          						<TD bgColor= {{ bgcolor5 }}>
+            						<DIV class=style14 align=center><FONT color={{ textcolor1 }}>
+			
+								 	{{ film.durata }}
+			
+            						min</FONT></DIV>
+								</TD>
+							</TR>
+        					<TR>
+          						<TD></TD>
+							</TR>
+        					<TR>
+          						<TD bgColor={{ bgcolor6 }}><SPAN class=style14><FONT color={{ textcolor1 }}><EM>inserted:</EM></FONT></SPAN></TD>
+							</TR>
+        					<TR>
+          						<TD bgColor={{ bgcolor5 }}>
+            						<DIV class=style14 align=center><FONT color={{ textcolor1 }}>
+			
+									{{ film.data_ins }}
+			
+									</FONT></DIV>
+								</TD>
+							</TR>
+        					<TR>
+          						<TD bgColor={{ bgcolor6 }}><SPAN class=style14><FONT color={{ textcolor1 }}>
+									<EM>Moficato:</EM></FONT></SPAN>
+								</TD>
+							</TR>
+        					<TR>
+          						<TD bgColor={{ bgcolor5 }}>
+            						<DIV class=style14 align=center><FONT color={{ textcolor1 }}>
+			
+									{{ film.data_mod }}
+			
+									</FONT></DIV>
+								</TD>
+							</TR>
+						</TBODY></TABLE>
+					<A onclick=\"NewWindow(this.href,'name','800','600','yes');return false;\" href="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/white.gif"></A></TD>
+    				<TD vAlign=top align=left width=\"88%\" height=214>
+					
+      			<TABLE style=\"FONT-SIZE: 8pt; FONT-FAMILY: Tahoma\" bordercolor={{ bordercolor1 }} height=305 cellSpacing=1 cellPadding=1 width=\"100%\" border=0>
+        		<TBODY>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor4 }} colSpan=4 height=14><STRONG><IMG height=16 src="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/data.gif" width=72></STRONG></TD>
+					</TR>
+        			<TR>
+          				<TD vAlign=top align=left width=\"19%\" bgColor={{ bgcolor2 }} height=13><B>Titolo originale: </B></TD>
+          				<TD id=mOTitle vAlign=top align=left width=\"37%\" bgColor={{ bgcolor2 }} height=13>
+		  
+		  					{{ film.titolo }}
+		  
+		  				</TD>
+          				<TD vAlign=top align=left width=\"15%\" bgColor={{ bgcolor2 }}><STRONG>Studio:</STRONG></TD>
+          				<TD id=mPAA vAlign=top align=left width=\"29%\" bgcolor={{ bgcolor1 }} rowSpan=4>
+            				<DIV align=center></DIV>
+            				<DIV align=right>
+			
+								 {{ film.studio }}
+			
+							</DIV>
+						</TD>
+					</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13><B>Regista:</B></TD>
+          				<TD id=mDIR vAlign=top align=left bgColor={{ bgcolor2 }} height=13>
+		  					 {% for regista in film.get_regista %}
+							 	{% if forloop.first %}
+									{{ regista.nome }} {{ regista.cognome }}
+								{% else %} 
+									<br>{{ regista.nome }} {{ regista.cognome }}
+								{% endif %} 
+							 {% endfor %}
+		  
+		  				</TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13>&nbsp;</TD>
+					</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }}><B>Sceneggiatura:</B></TD>
+          				<TD id=mWriter vAlign=top align=left bgColor={{ bgcolor2 }}>
+		  					{% for persona in film.get_sceneggiatori %}
+								{% if forloop.first %}
+									{{ persona.nome }} {{ persona.cognome }}
+								{% else %} 
+									<br>{{ persona.nome }} {{ persona.cognome }}
+								{% endif %} 
+							 {% endfor %}
+		  				</TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }}>&nbsp;</TD>
+					</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }}><B>Fotografia:</B></TD>
+		  	
+          				<TD id=mPhtg vAlign=top align=left bgColor={{ bgcolor2 }}>
+          					{% for persona in film.get_fotografi %}
+								{% if forloop.first %}
+									{{ persona.nome }} {{ persona.cognome }}
+								{% else %} 
+									<br>{{ persona.nome }} {{ persona.cognome }}
+								{% endif %} 
+							{% endfor %}
+
+          						
+          					
+          				</TD>
+		  
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }}>&nbsp;</TD>
+					</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }}><B>Musica:</B></TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }}>
+		  					{% for persona in film.get_musica %}
+								{% if forloop.first %}
+									{{ persona.nome }} {{ persona.cognome }}
+								{% else %} 
+									<br>{{ persona.nome }} {{ persona.cognome }}
+								{% endif %} 
+							{% endfor %}
+		  				</TD>
+          				<TD vAlign=top align=left width=\"15%\" bgColor={{ bgcolor2 }}><B>MPAA:</B></TD>
+          				<TD id=mPAA vAlign=top align=left width=\"29%\" bgColor={{ bgcolor2 }}>&nbsp;</TD>
+					</TR>
+					{% ifequal film.preview 1 %} 
+					<tr>
+						<td colspan='4' align='center'>
+							<a  
+    								href="{{ PREVIEW_URL }}{{ film.id }}.flv"  
+    								style="display:block;width:425px;height:300px;"  
+							    id="player"> </a>
+
+
+							<script language="JavaScript"> 
+    							flowplayer("player", "{{ MEDIA_URL_SITE_REPOSITORY }}flowplayer/flowplayer-3.1.5.swf"); 
+							</script>
+						</td>
+					</tr>
+					{% endifequal %}
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=14><B>Produttore:</B></TD>
+          				<TD id=mProd vAlign=top align=left bgColor={{ bgcolor2 }}>
+		  					{% for persona in film.get_produttori %}
+								{% if forloop.first %}
+									{{ persona.nome }} {{ persona.cognome }}
+								{% else %} 
+									<br>{{ persona.nome }} {{ persona.cognome }}
+								{% endif %} 
+							{% endfor %}
+		  
+		  				</TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor3 }} height=14><B>Voto:</B></TD>
+          				<TD id=mRated vAlign=top align=left bgColor={{ bgcolor3 }} height=14><STRONG>
+							 __voto__
+						</STRONG></TD>
+					</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13><B>Genere:</B></TD>
+          				<TD id=mGenre vAlign=top align=left bgColor={{ bgcolor2 }} height=13>
+		  	
+		  					 {{ film.genere }}
+		  
+		  				</TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }}><B>ID sito:</B></TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }}></TD>
+		  			</TR>
+        
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13><B>Anno:</B></TD>
+          				<TD id=mYear vAlign=top align=left bgColor={{ bgcolor2 }} height=13>
+		  
+		  					{{ film.anno }}
+		  
+		  				</TD>
+         		 		<TD class=style14 vAlign=top align=left bgColor={{ bgcolor2 }}><SPAN class=style22>Sul Web:</SPAN></TD>
+          				<TD class=style14 vAlign=top align=left bgColor={{ bgcolor2 }}><A class=style23 target='_blank' href="{{ film.link }}">LINK</A></TD>
+					</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13><B>Paese:</B></TD>
+          				<TD id='mCountry' vAlign=top align=left bgColor={{ bgcolor2 }} height=13>
+			
+							 {{ film.paese }}
+			
+						</TD>
+          				<TD class=style14 vAlign=top align=left width=\"15%\" bgColor={{ bgcolor2 }}><SPAN class=style20>Sito ufficiale:</SPAN></TD>
+          				<TD class=style14 vAlign=top align=left width=\"29%\" bgColor={{ bgcolor2 }}><A class=style21 href=\"file:///C:/Programmi/eXtreme%20Movie%20Manager/\">LINK</A></TD>
+		  			</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13><B>Box ID:</B></TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13>
+						 	{% for supporto in film.get_supporti %}
+								{% if forloop.first %}
+									{{ supporto.nome }}
+								{% else %}
+									, {{ supporto.nome }}
+								{% endif %}
+							{% endfor %}
+		  
+		  				</TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13>&nbsp;</TD>
+          				<TD id=mRipper vAlign=top align=left bgColor={{ bgcolor2 }} height=13>&nbsp;</TD>
+					</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }}><B>Studio:</B></TD>
+          				<TD id=mStudio vAlign=top align=left bgColor={{ bgcolor2 }}></TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor7 }} height=13><STRONG><FONT color={{ textcolor2 }}>Note:</FONT></STRONG></TD>
+          				<TD id=mNCD vAlign=top align=left bgColor={{ bgcolor7 }} rowSpan=2><FONT color={{ textcolor2 }}>&nbsp;</FONT></TD>
+		  			</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }}><B>Distributore:</B></TD>
+          				<TD id=mDistr vAlign=top align=left bgColor={{ bgcolor2 }}></TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13>&nbsp;</TD>
+		  			</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13>&nbsp;</TD>
+          				<TD id=mRated vAlign=top align=left bgColor={{ bgcolor2 }} height=13>&nbsp;</TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13>&nbsp;</TD>
+          				<TD id=mNCD vAlign=top align=left bgColor={{ bgcolor2 }}>&nbsp;</TD>
+		  			</TR>
+        			<TR>
+          				<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13><B>Media:</B></TD>
+          				<TD id=mMedia vAlign=top align=left bgColor={{ bgcolor2 }} height=13>
+		  
+						  	{{ film.formato }}
+		  
+		  				</TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor3 }}><B>Data ultimo Prestito:</B></TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor3 }}>
+		  
+		  					__data_ult_prest__
+		  
+		  				</TD>
+					</TR>
+        			<TR>
+			        	<TD vAlign=top align=left bgColor={{ bgcolor2 }} height=13><B>Lingua:</B></TD>
+          				<TD id=mLang vAlign=top align=left bgColor={{ bgcolor2 }} height=13></TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor3 }}><B>Ultimo prestito:</B></TD>
+          				<TD vAlign=top align=left bgColor={{ bgcolor3 }}>
+		  
+		  					__nome_ult_prest__
+		  
+		  				</TD>
+					</TR>
+        			<TR bgcolor={{ bgcolor1 }}>
+          				<TD vAlign=top align=left height=13>&nbsp;</TD>
+          				<TD id=mLang vAlign=top align=left height=13>&nbsp;</TD>
+          				<TD vAlign=top align=left>&nbsp;</TD>
+          				<TD vAlign=top align=left>&nbsp;</TD>
+		  			</TR>
+       	 			<TR bgColor={{ bgcolor4 }}>
+          				<TD vAlign=top align=left colSpan=4 height=14><STRONG><IMG height=16 src="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/plot.gif" width=72><SPAN class=style26>Trama:</SPAN></STRONG></TD>
+					</TR>
+		
+        			<TR bgColor={{ bgcolor2 }}>
+						<TD id=mPlot vAlign=top align=left colSpan=4 height=13><SPAN class=style25>
+							{{ film.trama }}
+			
+						</SPAN></TD>
+					</TR>
+      
+		        	<TR>
+		
+         				<TD vAlign=top bordercolor={{ bordercolor1 }} align=left width=488 bgColor={{ bgcolor2 }} colspan=4>
+            				<TABLE style=\"FONT-SIZE: 10pt; FONT-FAMILY: Tahoma\" cellSpacing=0 cellPadding=0 width=\"100%\" border=0>
+              				<TBODY>
+              					<TR bgColor={{ bgcolor4 }}>
+                					<TD width=\"50%\" bgColor={{ bgcolor4 }} colspan=2><B><IMG height=14 src="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/actors.gif" width=70><A name=actors></A><SPAN class=style26>Attori:</SPAN></B></TD>
+                					<TD width=\"50%\" colspan=2>&nbsp;</TD>
+								 </TR>
+              					 <TR bgColor={{ bgcolor2 }}>
+                					 <TD id=mActors width=\"100%\" colSpan=4>
+				
+										 {% for attore in film.get_attori %}
+							 				{% if forloop.first %}
+												<a href='/persone/scheda/{{ attore.id}}/'>{{ attore.nome }} {{ attore.cognome }}</a>
+											{% else %} 
+												<br><a href='/persone/scheda/{{ attore.id}}/'>{{ attore.nome }} {{ attore.cognome }}</a>
+											{% endif %} 
+							 			 {% endfor %}
+									 </TD>
+								 </TR>
+							 </TBODY></TABLE>
+						 </TD>
+         			 </TR>
+        		 </TBODY></TABLE>
+				 {% include "film/elenco_thumbnail.html" %}
+		

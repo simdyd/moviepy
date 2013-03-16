@@ -1,0 +1,12 @@
+
+{% if generi_list %}
+	<div id='lista_generi'>
+	<ul class='hide'>
+        	
+			 {% for genere in generi_list %}
+			 		<li><a href="/mobile/genere/{{ genere.id }}/">{{ genere.nome }}</a></li>
+			 	
+              {% endfor %}
+               </ul>
+</div>
+            {% endif %}

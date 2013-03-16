@@ -1,0 +1,14 @@
+{% autoescape off %}
+	<dt><a href='/scheda/{{ film.id }}/'>{{ film.titolo }}</a></dt>
+    {{ film.thumb }}
+    <dd>Anno : {{ film.anno }} </dd>
+    <dd>Genere : {{ film.genere.nome }} </dd>
+    <dd>{{film.durata }}</dd>
+    <dt>Attori</dt>
+    {% for attore in film.get_attori %}
+    
+    
+    
+        <dd><a href='/persone/scheda/{{ attore.id }}'>{{ attore.nome }} {{ attore.cognome }}</dd>
+    {% endfor %}
+{% endautoescape %}
