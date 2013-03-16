@@ -4,6 +4,7 @@ from django.conf import settings
 from film.models import Movie,Supporti
 
 
+
 elenco=Movie.objects.all()
 
 for movie in elenco:
