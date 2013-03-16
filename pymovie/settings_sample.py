@@ -50,6 +50,8 @@ PATH_BASE = '/opt/website/moviepy/pymovie/'
 
 LOG_ROOT= '/opt/website/moviepy/logs/'
 
+USE_WIKIPEDIA=True
+
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
