@@ -52,14 +52,14 @@ LOG_ROOT= '/opt/website/movie/media_movie/log/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/media_movie/'
+MEDIA_URL = 'http://192.168.1.30/media_movie/'
 PREVIEW_URL = '/media_movie/preview/'
 MEDIA_PATH_SITE_REPOSITORY = "/opt/website/movie/moviepy/static/"
-MEDIA_URL_SITE_REPOSITORY = '/static/'
+MEDIA_URL_SITE_REPOSITORY = 'http://192.168.1.30/static/'
 
 
-#Path per trovare i file video
-FOLDER_VIDEO = '' 
+
+FOLDER_VIDEO = '/media/Storage_2/Film/1-100/,/media/Storage_2/Film/101-200/,/media/Storage_2/Film/201-300/,/media/Storage_2/Film/301-400/,/media/Storage_2/Film/401-500/,/media/Storage_2/Film/501-600/,/media/Storage_2/Film/601-700/,/media/Storage_2/Film/701-800/,/media/Storage_2/Film/801-900/,/media/Storage_2/Film/901-1000/,/media/Storage_2/Film/1001-1100/,/media/Storage_2/Film/1101-1200/,/media/Storage_2/Film/1201-1300/,/media/Storage_2/Film/1301-1400/,/media/Storage_2/Film/1401-1500/,/media/Storage_1/Film/1501-1600/,/media/Storage_1/Film/1601-1700/,/media/Storage_1/Film/1701-1800/,/media/Storage_1/Film/1801-1900/,/media/Storage_1/Film/1901-2000/,/media/Storage_1/Film/2001-2100/'
 
 # Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = '/opt/website/movie/moviepy/static/'
