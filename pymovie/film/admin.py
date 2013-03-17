@@ -1,4 +1,4 @@
-from film.models import Formati,Genere,Supporti,Movie,MovieLink, MovieMedia
+from film.models import Formati,Genere,Supporti,MovieFoto,Movie,MovieLink, MovieMedia
 
 from persone.models import Persona
 
@@ -39,14 +39,21 @@ class MovieLinkInLine(admin.TabularInline):
 class MovieMediaInLine(admin.TabularInline):
     model = MovieMedia
     extra=1
+
+class MovieFotoInLine(admin.TabularInline):
+    raw_id_fields = ('foto',)
     
+    
+    model = MovieFoto
+    extra=1
+
 class MovieAdmin(admin.ModelAdmin):
     search_fields = ['titolo','titolo_originale','id',]
     list_display = ('id','titolo','genere','anno',)
-    raw_id_fields = ('foto','regia','fotografia','sceneggiatura','musica','produttore')
+    raw_id_fields = ('regia','fotografia','sceneggiatura','musica','produttore')
     fieldsets=(
                (None,{
-                      'fields': ('titolo', 'titolo_originale', 'trama', 'recensione','genere','durata','anno','foto','formato')
+                      'fields': ('titolo', 'titolo_originale', 'trama', 'recensione','genere','durata','anno','formato')
                       }),
                ('Dati Video',{
                               'classes': ('collapse',),
@@ -56,11 +63,13 @@ class MovieAdmin(admin.ModelAdmin):
     exclude = ('attori','supporto',)
 
     inlines = [
+        MovieFotoInLine,
         MovieMediaInLine,
         MovieLinkInLine,
         SupportoInLine,
         AttoriInLine,
         RegiaInLine,
+        
     ]
 
     save_as = True

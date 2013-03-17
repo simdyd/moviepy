@@ -49,7 +49,7 @@ class Movie(models.Model):
     studio = models.CharField(verbose_name="Studio",max_length=50, blank=True, null=True)
     musica = models.ManyToManyField(Persona,verbose_name="Musica",related_name='musica', blank=True, null=True, limit_choices_to = {'professione__short_id':  'MUS'})
     produttore = models.ManyToManyField(Persona,verbose_name="Produttore",related_name='produttore', blank=True, null=True, limit_choices_to = {'professione__short_id':  'PRO'})
-    foto = models.ManyToManyField(Photo,verbose_name="Photo", blank=True, null=True)
+    #foto = models.ManyToManyField(Photo,verbose_name="Photo", blank=True, null=True)
     qual_audio =models.IntegerField(verbose_name="qual_audio",blank=True,null=True)
     qual_video =models.IntegerField(verbose_name="qual_video",blank=True,null=True)
     data_ins=models.DateTimeField('data Inserimento',blank=True,null=True,default=datetime.now)
@@ -87,7 +87,7 @@ class Movie(models.Model):
     thumb.allow_tags = True
     
     def has_photo(self):
-        temp=self.foto.all()
+        temp=MovieFoto.objects.filter(movie=self)
         tmp=len(temp)
         #print tmp
         if tmp>0:    
@@ -97,7 +97,9 @@ class Movie(models.Model):
     
     def get_thumbnail(self):
         try:
-            result=self.foto.all()[0]
+            #result=self.foto.all()[0]
+            tmp=MovieFoto.objects.filter(movie=self).order_by('ordine')[0]
+            result=tmp.foto
         except:
             result=None
         return result
@@ -105,7 +107,12 @@ class Movie(models.Model):
     def get_photo(self):
         #foto=self.foto.all()
         #print 'ppp' + self.foto[1].name
-        return self.foto.all()
+        list=[]
+        for tmp in MovieFoto.objects.filter(movie=self).order_by('ordine'):
+            list.append(tmp.foto)
+        
+        return list 
+        #return self.foto.all()
     
     def get_musica(self):
         return self.musica.all().order_by('cognome')
@@ -287,7 +294,20 @@ class Movie(models.Model):
 
 #models.signals.post_save.connect(make_preview, sender=Movie)
 
-
+class MovieFoto(models.Model):
+    CELLSERPRO_CHOICES = (
+        ('classic', 'classic'),
+        ('locandina', 'locandina'),
+        ('cover', 'cover'),
+    )
+    foto = models.ForeignKey(Photo,verbose_name="Photo")
+    movie = models.ForeignKey(Movie,verbose_name="Movie")
+    ordine =models.IntegerField(verbose_name="ordine",default=100)
+    tipo= models.CharField(verbose_name = "Tipo",max_length=15,choices=CELLSERPRO_CHOICES)
+    
+    class Meta:
+        unique_together = ('foto', 'movie')
+        
 class MovieLink(models.Model):
     movie = models.ForeignKey(Movie,verbose_name="Film")
     link = models.CharField(verbose_name = "Link",max_length=255)

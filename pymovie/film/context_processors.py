@@ -1,12 +1,15 @@
 from django.conf import settings
 from django.contrib.sites.models import Site
 #from users_info.models import UserInfo
-from film.models import Movie
+from film.models import Movie,MovieFoto
 
 def movie_vars(request):
     curr_site = Site.objects.get_current();
     #user_info = None
-    MOVIE_NO_PICS=Movie.objects.filter(foto=None).count()
+    MOVIE=Movie.objects.all().count()
+    
+    MOVIE_PICS=MovieFoto.objects.all().values('movie').distinct().count()
+    MOVIE_NO_PICS=MOVIE-MOVIE_PICS
     MOVIE_NO_ORI=Movie.objects.filter(video_file=None).count()
     MEDIA_PATH_SITE_REPOSITORY = settings.MEDIA_PATH_SITE_REPOSITORY
     MEDIA_URL_SITE_REPOSITORY = settings.MEDIA_URL

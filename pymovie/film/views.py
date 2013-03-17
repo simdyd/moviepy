@@ -354,9 +354,20 @@ def download_foto(film,link_foto):
                     img.upload_date = datetime.datetime.now()
                     img.publish_date = datetime.datetime.now()
                     img.save()
-        
+                    
                     film.foto.add(img)
                     film.save()
+                if img!=None:
+                    try:
+                        moviefoto=MovieFoto.objects.get(foto=img,movie=film)
+                    except:
+                        #nonlotrovo lo aggiungo
+                        moviefoto=MovieFoto()
+                        moviefoto.foto=img
+                        moviefoto.movie=film
+                        moviefoto.ordine=100
+                        moviefoto.tipo='classic'
+                        moviefoto.save()
                 
             except:
                 logger_download.warning('Problemi con il download di una foto')
