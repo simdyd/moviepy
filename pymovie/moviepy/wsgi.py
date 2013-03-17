@@ -14,7 +14,7 @@ framework.
 
 """
 
-import os
+import os,sys
 
 # We defer to a DJANGO_SETTINGS_MODULE already in the environment. This breaks
 # if running multiple sites in the same mod_wsgi process. To fix this, use
@@ -32,4 +32,4 @@ application = get_wsgi_application()
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
 sys.path.append('/opt/website/moviepy/pymovie')
-#sys.path.append('/opt/website/moviepy/pywikipedia')
+sys.path.append('/opt/website/moviepy/pywikipedia')
