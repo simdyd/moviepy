@@ -195,7 +195,7 @@ def save_persone_ext(film,persone):
                 
                 if (nome!=None and cognome!=None):
                     try:
-                        persona=Persona.objects.filter(nome=nome,cognome=cognome)[0]
+                        persona=Persona.objects.get(nome=nome,cognome=cognome)
                         #print persona.nometNpers=Fals
                         try:
                             persona_link=PersonaLink.objects.get(persona=persona,tipo_link=persone[count,'tipo_link'])
@@ -204,9 +204,11 @@ def save_persone_ext(film,persone):
                             #persona.download=0
                             persona_link.save()
                         except:
+                            logger.warning(sys.exc_info())
                             persona_link=PersonaLink()
                             persona_link.persona=persona
                             persona_link.tipo_link=persone[count,'tipo_link']
+                            persona_link.link=persone[count,'link']
                             persona_link.download=0
                             persona_link.save()
                             #print sys.exc_info()
@@ -214,15 +216,29 @@ def save_persone_ext(film,persone):
                             
                     except ObjectDoesNotExist:
                         #print sys.exc_info()
-                        persona=Persona()
-                        #print nome + ' ' + cognome + ' ' + persone[count,'link']
-                        persona.nome=nome
-                        persona.cognome=cognome
-                        persona.download=0
-                        persona.link=persone[count,'link']
-                        persona.tipo_link=persone[count,'tipo_link']
-                        persona.save()
+                        try:
+                            persona=Persona()
+                            #print nome + ' ' + cognome + ' ' + persone[count,'link']
+                            persona.nome=nome
+                            persona.cognome=cognome
+                            #persona.download=0
+                            #persona.link=persone[count,'link']
+                            #persona.tipo_link=persone[count,'tipo_link']
+                            persona.save()
+                        except:
+                            persona=None
+                            logger_download.warning('Problema creazione nuova persona')
+                            logger_download.warning(sys.exc_info())
+                            
+                        if persona!=None:
+                            persona_link=PersonaLink()
+                            persona_link.persona=persona
+                            persona_link.tipo_link=persone[count,'tipo_link']
+                            persona_link.link=persone[count,'link']
+                            persona_link.download=0
+                            persona_link.save()
                     except:
+                        logger_download.warning('Problema a trovare la persona')
                         logger_download.warning(sys.exc_info())
                         
                 else:

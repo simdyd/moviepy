@@ -1467,6 +1467,12 @@ mark.style12 {
 	color:#fff;
 }
 
+mark.stylePageList {
+	background-color:#3D5578;
+	display: inline-block;
+	color:#fff;
+	margin: 2px;
+}
 /* HOME PAGE (index.html)
 -------------------------------------------------------*/
 .site_content li {

@@ -46,7 +46,7 @@ class MovieAdmin(admin.ModelAdmin):
     raw_id_fields = ('foto','regia','fotografia','sceneggiatura','musica','produttore')
     fieldsets=(
                (None,{
-                      'fields': ('titolo', 'titolo_originale', 'trama', 'recensione','genere','durata','anno','foto')
+                      'fields': ('titolo', 'titolo_originale', 'trama', 'recensione','genere','durata','anno','foto','formato')
                       }),
                ('Dati Video',{
                               'classes': ('collapse',),

@@ -23,7 +23,9 @@
 				<section id="page_content" class="page_content">
 					{% include "scheleton/top_panel.html" %}				
 					
-					
+					{% if film_list %}
+						{% include "block/elenco_pagine.html" %}
+					{% endif %}
 					
 					{% ifequal page_tipe 'scheda' %}
 				    	{% include "film/scheda.html" %}

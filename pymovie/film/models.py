@@ -43,7 +43,7 @@ class Movie(models.Model):
     #cast = models.ManyToManyField(Persona,verbose_name="Cast",related_name='cast',  blank=True, null=True)
     regia = models.ManyToManyField(Persona,verbose_name="Regia",related_name='regia', blank=True, null=True, limit_choices_to = {'professione__short_id':  'REG'})
     supporto = models.ManyToManyField(Supporti,blank=True,null=True,related_name='supporto')
-    old_supporto = models.CharField(verbose_name = "old supporto",max_length=100,blank=True,null=True)
+    #old_supporto = models.CharField(verbose_name = "old supporto",max_length=100,blank=True,null=True)
     sceneggiatura = models.ManyToManyField(Persona,verbose_name="Sceneggiatura",related_name='sceneggiatura', blank=True, null=True, limit_choices_to = {'professione__short_id':  'SCE'})
     fotografia = models.ManyToManyField(Persona,verbose_name="Fotografia",related_name='fotografia', blank=True, null=True, limit_choices_to = {'professione__short_id':  'FOT'})
     studio = models.CharField(verbose_name="Studio",max_length=50, blank=True, null=True)
@@ -309,14 +309,14 @@ class MovieMedia(models.Model):
     file_video=models.CharField(verbose_name='file_dettagli_video', max_length=255,blank=True,null=True)
     file_size=models.IntegerField(verbose_name="dimensione",blank=True,null=True,default=0)
     
-class foto_old(models.Model):
-    film=models.ForeignKey(Movie,verbose_name="Movie")
-    nome_file=models.CharField(verbose_name = "nome_file",max_length=100)
-    descrizione=models.CharField(verbose_name = "descrizione",max_length=100)
-    peso=models.IntegerField(verbose_name="peso",blank=True,null=True)
-    old_id=models.IntegerField(verbose_name="old_id",blank=True,null=True)
-    
-class persone_old(models.Model):
-    film=models.ForeignKey(Movie,verbose_name="professione")
-    text=models.CharField(verbose_name='text',max_length=200)
-    professione=models.CharField(verbose_name='professione',max_length=10)
+#class foto_old(models.Model):
+#    film=models.ForeignKey(Movie,verbose_name="Movie")
+#    nome_file=models.CharField(verbose_name = "nome_file",max_length=100)
+#    descrizione=models.CharField(verbose_name = "descrizione",max_length=100)
+#    peso=models.IntegerField(verbose_name="peso",blank=True,null=True)
+#    old_id=models.IntegerField(verbose_name="old_id",blank=True,null=True)
+#    
+#class persone_old(models.Model):
+#    film=models.ForeignKey(Movie,verbose_name="professione")
+#    text=models.CharField(verbose_name='text',max_length=200)
+#    professione=models.CharField(verbose_name='professione',max_length=10)

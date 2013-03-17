@@ -1,0 +1,22 @@
+<div class="grid_12" >
+	<div class="box">
+							<h2>
+								Elenco Pagine
+								<span class="l"></span><span class="r"></span>
+							</h2>
+							<div class="block">
+								<div class="block_in">
+<div >
+		
+	{% for page in film_list.paginator.page_range %}
+		
+			<a href="#" onclick="change_page_list({{ page }},{{ genere }},{{ supporto }},{% if no_thumbnail %}{{ no_thumbnail}}{% else %}0{% endif %},{% if no_video %}{{ no_video}}{% else %}0{% endif %})"><mark class="stylePageList">{{page}}</mark></a>
+		
+		{% endfor %}
+<dt >&nbsp;</dt>
+</div>
+
+</div>
+</div>
+</div>
+</div>
