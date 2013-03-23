@@ -27,7 +27,7 @@ import urllib
 
 import logging
 logger_download = logging.getLogger('movie_download')
-
+logger = logging.getLogger('movie')
 
 def get_default_parameter():
     parameters={}
@@ -69,7 +69,18 @@ def get_film_senza_video(request):
 
 
 def get_film_senza_thumbnail(request):
-    film_list=Movie.objects.filter(foto=None)
+    mf_list=MovieFoto.objects.all().values('movie').distinct()
+    #film_list=''
+    film_list=[]
+    for mf in mf_list:
+        #if film_list!='':
+        #    film_list+=','
+        #film_list+=str(mf['movie'])
+        film_list.append(mf['movie'])
+    logger.info(film_list)
+    
+    film_list=Movie.objects.exclude(id__in=film_list)
+    
     if film_list!=None:            
         items=get_pagination_film(1,film_list)
     else:
@@ -355,8 +366,8 @@ def download_foto(film,link_foto):
                     img.publish_date = datetime.datetime.now()
                     img.save()
                     
-                    film.foto.add(img)
-                    film.save()
+                    #film.foto.add(img)
+                    #film.save()
                 if img!=None:
                     try:
                         moviefoto=MovieFoto.objects.get(foto=img,movie=film)

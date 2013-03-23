@@ -124,7 +124,7 @@
 				{% for filmlink in filmlinks %}
 				
 					<li>{{ filmlink.tipo }} <span class="alignright"><a href='{{ filmlink.link }}' target='_blank'>{{ filmlink.link|urlizetrunc:25  }}</a></span></li>
-					<li>{{ filmlink.tipo }} <span class="alignright"><a href='/download/{{ filmlink.tipo }}/{{ film.id }}/' >Download</a></span></li>
+					{% if user.is_superuser %}<li>{{ filmlink.tipo }} <span class="alignright"><a href='/download/{{ filmlink.tipo }}/{{ film.id }}/' >Download</a></span></li>{% endif %}
 				{% endfor %}
 				{% if film.formato %}<li>Formato: <span class="alignright">{{ film.formato }}</span></li>{% endif %}
 				{% if user.is_superuser %}<a target="_blank" href="/admin/film/movie/{{ film.id }}/" class="button medium blue"> admin </a>{% endif %}

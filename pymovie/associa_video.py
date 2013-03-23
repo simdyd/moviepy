@@ -85,6 +85,7 @@ for cartella in lista_cartelle:
                         try:
                             movie_media=MovieMedia.objects.get(file=full_file_name,movie=movie,tipo='orig')
                         except:
+                            print 'Trovato file con id ' + str(num)
                             movie_media=MovieMedia()
                             movie_media.file=full_file_name
                             movie_media.file_url=file_url
@@ -111,13 +112,15 @@ for cartella in lista_cartelle:
                             #print 'check 1'
                             
                         if (movie.video_file==None):
+                            print movie.titolo
                             
-                            print 'Trovato file con id ' + str(num)
                             
-                                
-                            movie.video_file=full_file_name
-                            movie.save()
-                            
+                            try:
+                                movie.video_file=str(full_file_name)
+                                movie.save()
+                            except:
+                                print sys.exc_info()
+                                print 'Problem con il salvataggio'
                             movie.ricava_parametri_video()
                         #Verifica e nel caso crea le anteprime
                         #movie.create_preview('mp4')

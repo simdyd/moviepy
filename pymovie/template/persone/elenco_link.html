@@ -2,8 +2,8 @@
 	<h4>Link</h4>
 	{% for link in elenco_link %}
 		
-			<p><b>{{ link.tipo_link }}</b> <a href='{{ link.link }}' target='blank'>visita</a> | 
-				<a href='/persone/download/{{ link.tipo_link }}/{{ persona.id}}/'>Download</a>
+			<p><b>{{ link.tipo_link }}</b> <a href='{{ link.link }}' target='blank'>visita</a> 
+				{% if user.is_superuser %} | <a href='/persone/download/{{ link.tipo_link }}/{{ persona.id}}/'>Download</a>{%endif%}
 			</p>
 		
 	{%endfor %}
