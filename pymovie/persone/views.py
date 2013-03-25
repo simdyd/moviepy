@@ -157,21 +157,21 @@ def download_foto_pers(persona,link_foto):
             except:
                 logger_download.warning('impossibile fare download')
                 logger_download.warning(link)
-                 
-                
-            try:
-                img = Photo.objects.get(image=name)
-            except:    
-                img = Photo()
-                img.name = nome_foto
-                img.image = name
-                img.caption=persona.nome + ' ' + persona.cognome 
-                img.upload_date = datetime.datetime.now()
-                img.publish_date = datetime.datetime.now()                    
-                img.save()
-        
-                persona.foto.add(img)
-                persona.save()
+                image=None
+            if image!=None:
+                try:
+                    img = Photo.objects.get(image=name)
+                except:    
+                    img = Photo()
+                    img.name = nome_foto
+                    img.image = name
+                    img.caption=persona.nome + ' ' + persona.cognome 
+                    img.upload_date = datetime.datetime.now()
+                    img.publish_date = datetime.datetime.now()                    
+                    img.save()
+            
+                    persona.foto.add(img)
+                    persona.save()
         except:
             
             logger_download.warning('problemi con download foto')

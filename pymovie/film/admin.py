@@ -1,7 +1,7 @@
 from film.models import Formati,Genere,Supporti,MovieFoto,Movie,MovieLink, MovieMedia
 
 from persone.models import Persona
-
+from media.models import Photo
 from django.contrib import admin
 
 admin.site.register(Formati)
@@ -39,13 +39,28 @@ class MovieLinkInLine(admin.TabularInline):
 class MovieMediaInLine(admin.TabularInline):
     model = MovieMedia
     extra=1
+    
+
 
 class MovieFotoInLine(admin.TabularInline):
     raw_id_fields = ('foto',)
-    
-    
+    #list_display = ('foto', 'admin_image')
+    readonly_fields=( 'admin_image',)
+    fields = ('foto','ordine','tipo','admin_image')
     model = MovieFoto
     extra=1
+    
+class MovieFotoAdmin(admin.ModelAdmin):
+    search_fields = ['movie__titolo','movie__titolo_originale',]
+    raw_id_fields = ('movie','foto')
+    list_filter = [ 'tipo',]
+    list_display = ('id','movie','ordine','foto','tipo','admin_image')
+    save_as = True
+    save_on_top = True
+    
+    
+admin.site.register(MovieFoto, MovieFotoAdmin)
+
 
 class MovieAdmin(admin.ModelAdmin):
     search_fields = ['titolo','titolo_originale','id',]
@@ -69,7 +84,7 @@ class MovieAdmin(admin.ModelAdmin):
         SupportoInLine,
         AttoriInLine,
         RegiaInLine,
-        
+        #PhotoInLine,
     ]
 
     save_as = True

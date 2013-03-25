@@ -305,6 +305,10 @@ class MovieFoto(models.Model):
     ordine =models.IntegerField(verbose_name="ordine",default=100)
     tipo= models.CharField(verbose_name = "Tipo",max_length=15,choices=CELLSERPRO_CHOICES)
     
+    def admin_image(self):
+        return self.foto.low()
+    admin_image.allow_tags = True
+
     class Meta:
         unique_together = ('foto', 'movie')
         

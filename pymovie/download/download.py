@@ -6,6 +6,9 @@ from django.conf import settings
 
 path_base=settings.PATH_BASE
 site_base='http://film.35mm.it/'
+import logging
+logger_download = logging.getLogger('movie_download')
+logger = logging.getLogger('movie')
 
 def get_link_foto_pers_35mm(link,link_type=0):
     urllib.urlretrieve(link,path_base+'tmp/file_foto_pers_35mm.html')
@@ -216,12 +219,19 @@ def get_attori_list_35mm(link,persone,count_persone):
     urllib.urlretrieve(link,path_base+'tmp/file_list_persone_35mm.html')
     input=open(path_base+'tmp/file_list_persone_35mm.html')
     pagina=input.read()
+    
+    
     stringa='<li class="list_type">CAST</li>'
     pos=pagina.find(stringa)
+    if pos<0:
+        stringa='<li class="list_type">ATTORI PROTAGONISTI</li>'
+        pos=pagina.find(stringa)
+        
     pos2=pagina.find('<li class="list_type">CREW</li>',pos+len(stringa))
     tmp=pagina[pos+len(stringa):pos2]
     input.close()
     stringa='<li class="list_filmografy">'
+    
     go=True
     while go==True:
         pos=tmp.find(stringa)
@@ -237,12 +247,13 @@ def get_attori_list_35mm(link,persone,count_persone):
             
             pos3=blocco_tmp.find('>',pos2)+1
             pos4=blocco_tmp.find('<',pos3)
-            ppp=blocco_tmp[pos3:pos4]
-            print ppp
-            persone[count_persone,'nome']=blocco_tmp[pos3:pos4]
-            persone[count_persone,'professione']='ATT'
-            persone[count_persone,'tipo_link']='35mm'
-            count_persone+=1
+            #ppp=blocco_tmp[pos3:pos4]
+            #logger_download.info( ppp)
+            if blocco_tmp[pos3:pos4]!='':
+                persone[count_persone,'nome']=blocco_tmp[pos3:pos4]
+                persone[count_persone,'professione']='ATT'
+                persone[count_persone,'tipo_link']='35mm'
+                count_persone+=1
         else:
             go=False
         
@@ -348,18 +359,28 @@ def get_info_35mm(link,link_type=1):
     #Link Locandina
     #Trova link locandina
     #<img alt="Immagine Scheda" style="top: 30px; left: 30px;" src="/immagini/film/m25915.gif">
-    stringa='<div id="cover_left">'#style="top: 30px; left: 30px;" src="/immagini/film/m25915.gif">'
+    stringa='<div id="cover">'#style="top: 30px; left: 30px;" src="/immagini/film/m25915.gif">'
     pos=pagina.find(stringa)
-    pos2=pagina.find('src="',pos)
-    pos3=pagina.find('"',pos2+5)
-    #print pos2
-    #print pos3
-    tmp=pagina[pos2+5:pos3]
-    #print tmp
-    foto_link[0]=site_base+tmp
-    #print foto_link[0]
-    #inizio cast
+    pos2=pagina.find("</div>",pos)
+    tmp=pagina[pos:pos2]
     
+    
+    pos2=tmp.find('href="')
+    if pos2>0:
+        pos3=tmp.find('"',pos2+6)
+        #print pos2
+        #print pos3
+        tmp=tmp[pos2+7:pos3]
+        
+        #print tmp
+        if tmp!='avascript:void(0)':
+            logger_download.info('trovata locandina ' + tmp)
+            #logger_download.info(tmp)
+            foto_link[0]=site_base+tmp
+            #print foto_link[0]
+    
+    #inizio cast
+        
     link_attori=link.replace('.html','/cast-crew-lista-completa.html')
     #persone,count_persone=get_attori_list_old(pagina,persone,count_persone)
     persone,count_persone=get_attori_list_35mm(link_attori,persone,count_persone)

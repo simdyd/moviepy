@@ -151,7 +151,7 @@ class Photo(models.Model):
             if ext_=='.gif':
                 im.save(microsize,"GIF", dpi=(72, 72), quality=30)
             os.chmod(microsize, 0777)
-        return '<a href="%s"><img src="%s" alt="micro image" />' % (settings.MEDIA_URL +image_path,settings.MEDIA_URL+microsize)
+        return '<a href="%s"><img src="%s" alt="micro image" /></a>' % (settings.MEDIA_URL +image_path,settings.MEDIA_URL+microsize)
 
     class Meta:
         verbose_name = 'Immagine'
@@ -246,7 +246,7 @@ class Photo(models.Model):
             return ''
 
     def thumb(self):
-        return '<a href="%s"><img width="150" src="%s" alt="tiny thumbnail image" />' % (self.getMediumUrl(), self.getLowUrl())
+        return '<a href="%s"><img width="150" src="%s" alt="tiny thumbnail image" /></a>' % (self.getMediumUrl(), self.getLowUrl())
 
     thumb.allow_tags = True
 

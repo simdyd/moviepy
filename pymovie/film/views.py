@@ -102,6 +102,40 @@ def get_film_senza_thumbnail(request):
     c = RequestContext( request, parameters)
     return HttpResponse(t.render(c))
 
+def get_film_senza_locandine(request):
+    mf_list=MovieFoto.objects.filter(tipo='locandina').values('movie').distinct().order_by('movie')
+    #film_list=''
+    film_list=[]
+    for mf in mf_list:
+        #if film_list!='':
+        #    film_list+=','
+        #film_list+=str(mf['movie'])
+        film_list.append(mf['movie'])
+    logger.info(film_list)
+    
+    film_list=Movie.objects.exclude(id__in=film_list)
+    
+    if film_list!=None:            
+        items=get_pagination_film(1,film_list,10)
+    else:
+        items=None
+    
+    
+    parameters=get_default_parameter()
+    
+    
+    
+    parameters['page_tipe'] = 'home'
+    #parameters['form'] = form
+    parameters['film_list'] = items
+    parameters['genere']=0
+    parameters['no_thumbnail']=1
+    parameters['supporto']=0
+    
+    t = loader.get_template(settings.SITE_TEMPLATE_PAGES_BASE_PATH +  'home.html')
+    c = RequestContext( request, parameters)
+    return HttpResponse(t.render(c))
+
 
 def ricava_parametri_video(movie):
     #recupero i media associati
@@ -215,7 +249,9 @@ def save_persone_ext(film,persone):
                             #persona.download=0
                             persona_link.save()
                         except:
-                            logger.warning(sys.exc_info())
+                            logger_download.warning('Link non trovato')
+                            logger_download.warning(sys.exc_info())
+                            
                             persona_link=PersonaLink()
                             persona_link.persona=persona
                             persona_link.tipo_link=persone[count,'tipo_link']
@@ -252,8 +288,8 @@ def save_persone_ext(film,persone):
                         logger_download.warning('Problema a trovare la persona')
                         logger_download.warning(sys.exc_info())
                         
-                else:
-                    logger_download.warning('Problema nome e cognome ' +persone[count,'nome'])
+                #else:
+                #    logger_download.warning('Problema nome e cognome ')
                         
                 if persona!=None:
                     try:    
@@ -338,7 +374,7 @@ def save_film_ext(film,dati):
         except:
             print sys.exc_info()
 
-def download_foto(film,link_foto):
+def download_foto(film,link_foto,tipo='classic'):
     #print 'download foto'
     count=0
     ok=True
@@ -351,38 +387,50 @@ def download_foto(film,link_foto):
             pos=link.rfind('/')
             nome_foto=link[pos+1:]
             try:
+                
                 nome_foto=nome_foto.replace('%20','_')
                 name = film.data_ins.strftime("%Y"+os.sep+"%m"+os.sep) + str(film.id) + nome_foto
-                image = urllib.URLopener()
-                image.retrieve(link,settings.MEDIA_ROOT + name)
-                #print link
                 try:
-                    img = Photo.objects.get(image=name)
-                except:    
-                    img = Photo()
-                    img.name = nome_foto
-                    img.image=name
-                    img.upload_date = datetime.datetime.now()
-                    img.publish_date = datetime.datetime.now()
-                    img.save()
-                    
+                    image = urllib.URLopener()
+                    image.retrieve(link,settings.MEDIA_ROOT + name)
+                except:
+                    image=None
+                    logger_download.warning('foto non trovata')
+                    logger_download.warning(sys.exc_info())
+                    logger_download.info(link)
+                #print link
+                if image!=None:
+                    try:
+                        img = Photo.objects.get(image=name)
+                    except:    
+                        img = Photo()
+                        img.name = nome_foto
+                        img.image=name
+                        img.upload_date = datetime.datetime.now()
+                        img.publish_date = datetime.datetime.now()
+                        img.save()
+                        
                     #film.foto.add(img)
                     #film.save()
-                if img!=None:
-                    try:
-                        moviefoto=MovieFoto.objects.get(foto=img,movie=film)
-                    except:
-                        #nonlotrovo lo aggiungo
-                        moviefoto=MovieFoto()
-                        moviefoto.foto=img
-                        moviefoto.movie=film
-                        moviefoto.ordine=100
-                        moviefoto.tipo='classic'
-                        moviefoto.save()
+                    if img!=None:
+                        try:
+                            moviefoto=MovieFoto.objects.get(foto=img,movie=film)
+                        except:
+                            #nonlotrovo lo aggiungo
+                            moviefoto=MovieFoto()
+                            moviefoto.foto=img
+                            moviefoto.movie=film
+                            if tipo=='classic':
+                                moviefoto.ordine=100
+                            elif tipo=='locandina':
+                                moviefoto.ordine=10
+                            moviefoto.tipo=tipo
+                            moviefoto.save()
                 
             except:
                 logger_download.warning('Problemi con il download di una foto')
                 logger_download.warning(sys.exc_info())
+                
                 #print 'problemi con download foto'
                 pass
             count=count+1
@@ -412,12 +460,14 @@ def download_auto(link,tipo='35mm'):
     result=None
     link_foto=None
     movie=link.movie
+    logger_download.info('----------------------------------------------')
+    logger_download.info('scarico le info del film ' + str(link.movie.id))
     if (tipo=='wikipedia') and (settings.USE_WIKIPEDIA==True):
         result,persone=get_info_wikipedia(link.link)
         
     if tipo=='35mm':
         result,persone,link_foto=get_info_35mm(link.link,0)
-        download_foto(movie,link_foto)
+        download_foto(movie,link_foto,'locandina')
         
     if tipo=='mymovies':
         result,persone,link_foto=get_info_mymovies(link.link,0)
@@ -443,7 +493,7 @@ def download(request,film_id,link,tipo='35mm'):
     film=Movie.objects.get(id=film_id)
     if tipo=='35mm':
         result,persone,link_foto=get_info_35mm(link)
-        download_foto(film,link_foto)
+        download_foto(film,link_foto,'locandina')
         result['tipo']=tipo
     if tipo=='imdb':
         result,persone=get_info_imdb(link)
@@ -685,9 +735,9 @@ def get_film_list(genere,titolo,supporto,attori,regia,anno=0):
             film_list=film_list.filter(anno=anno)
     return(film_list)
 
-def get_pagination_film(page,film_list):
+def get_pagination_film(page,film_list,size=10):
     
-    paginator = Paginator(film_list, 10)
+    paginator = Paginator(film_list, size)
     try:
         page = int(page)
     except ValueError:
