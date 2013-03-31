@@ -8,7 +8,7 @@
 <div>
 	<span class="step-links">
 		{% if film_list.has_previous %}
-			<a href="#" onclick="change_page_list({{ film_list.previous_page_number }},{{ genere }},{{ supporto }},{% if no_thumbnail %}{{ no_thumbnail}}{% else %}0{% endif %},{% if no_video %}{{ no_video}}{% else %}0{% endif %})"><mark class="style10">previous</mark></a>
+			<a href="#" onclick="change_page_list({{ film_list.previous_page_number }},{{ genere }},{{ supporto }},'{{ kindlist }}')"><mark class="style10">previous</mark></a>
 		{% endif %}
 
 		<span class="current">
@@ -16,7 +16,7 @@
 		</span>
 		
 		{% if film_list.has_next %}
-			<a href="#" onclick="change_page_list({{ film_list.next_page_number }},{{ genere }},{{ supporto }},{% if no_thumbnail %}{{ no_thumbnail}}{% else %}0{% endif %},{% if no_video %}{{ no_video}}{% else %}0{% endif %})"><mark class="style10">next</style></a>
+			<a href="#" onclick="change_page_list({{ film_list.next_page_number }},{{ genere }},{{ supporto }},'{{ kindlist }}')"><mark class="style10">next</style></a>
 		{% endif %}
 	</span>
 </div>
@@ -66,15 +66,15 @@
 <div>
 	<span class="step-links">
 		{% if film_list.has_previous %}
-			<a href="#" onclick="change_page_list({{ film_list.previous_page_number }},{{ genere }},{{ supporto }},{% if no_thumbnail %}{{ no_thumbnail}}{% else %}0{% endif %},{% if no_video %}{{ no_video}}{% else %}0{% endif %})">previous</a>
+			<a href="#" onclick="change_page_list({{ film_list.previous_page_number }},{{ genere }},{{ supporto }},'{{ kindlist }}')"><mark class="style10">previous</mark></a>
 		{% endif %}
 
 		<span class="current">
-			Page {{ film_list.number }} of {{ film_list.paginator.num_pages }}.
+			<mark class="style8">Page {{ film_list.number }} of {{ film_list.paginator.num_pages }}.</mark>
 		</span>
-
+		
 		{% if film_list.has_next %}
-			<a href="#" onclick="change_page_list({{ film_list.next_page_number }},{{ genere }},{{ supporto }},{% if no_thumbnail %}{{ no_thumbnail}}{% else %}0{% endif %},{% if no_video %}{{ no_video}}{% else %}0{% endif %})">next</a>
+			<a href="#" onclick="change_page_list({{ film_list.next_page_number }},{{ genere }},{{ supporto }},'{{ kindlist }}')"><mark class="style10">next</style></a>
 		{% endif %}
 	</span>
 </div>

@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.template import Context, loader, RequestContext
 from django.utils import simplejson
-from film.models import Movie, Supporti
+from film.models import Movie, Supporti, MovieFoto
 from film.views import get_film_list,get_pagination_film
 from persone.models import Persona
 import datetime
@@ -62,31 +62,40 @@ def change_list_page(request):
         page = int(request.GET['page'])
     except:
         page = 1
+        
     try:
-        no_thumbnail = int(request.GET['no_thumbnail'])
+        kindlist=request.GET['kindlist']
     except:
-        no_thumbnail = 0   
+        kindlist=''
     
-    try:
-        no_video= int(request.GET['no_video'])
-    except:
-        no_video=0
     
     
         
-    if no_thumbnail==0 and no_video==0:
+    if kindlist=='' or kindlist==None or kindlist=='stardard':
         film_list=get_film_list(genere,'',supporto,'','')
-    elif no_thumbnail==1:
-        film_list=Movie.objects.filter(foto=None)
-    elif no_video==1:
-        film_list=Movie.objects.filter(video_file=None)
+    elif kindlist=='no_thumbnail':
+        mf_list=MovieFoto.objects.all().values('movie').distinct()
+        film_list=[]
+        for mf in mf_list:
+            film_list.append(mf['movie'])
+        film_list=Movie.objects.exclude(id__in=film_list)
+        
+    elif kindlist=='no_video':
+        film_list=Movie.objects.filter(video_file=None).order_by('-anno')
+    elif kindlist=='no_loca':
+        mf_list=MovieFoto.objects.filter(tipo='locandina').values('movie').distinct().order_by('movie')
+        
+        film_list=[]
+        for mf in mf_list:
+            film_list.append(mf['movie'])
+        film_list=Movie.objects.exclude(id__in=film_list)
         
     items=get_pagination_film(page,film_list)
     parameters['film_list']= items
     parameters['genere']= genere
     parameters['supporto']=supporto
-    parameters['no_thumbnail']=no_thumbnail
-    parameters['no_video']=no_video
+    parameters['kindlist']=kindlist
+    
 
     
     t = loader.get_template('film/elenco_img.html')

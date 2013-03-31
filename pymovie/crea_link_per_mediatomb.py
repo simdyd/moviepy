@@ -43,7 +43,7 @@ for cartella in lista_cartelle:
                                 os.chmod(link_folder+movie.genere.nome+'/'+file, 0777)
                         except:
                             print '----------genere---------------'
-                            print sys.exc_info()[0]
+                            print sys.exc_info()
                             print file
                             print '--------------------------'
                             pass
@@ -65,7 +65,7 @@ for cartella in lista_cartelle:
                                 os.chmod(link_folder_year+str(movie.anno)+'/'+file, 0777)
                         except:
                             print '----------------anno ----------------'
-                            print sys.exc_info()[0]
+                            print sys.exc_info()
                             print file
                             print '-------------------------------------'
                             pass
@@ -96,7 +96,7 @@ for cartella in lista_cartelle:
                             except:
                                 pass
                                 #print 'Errore creazione link supporto ' + str(supporto.nome)
-                                print sys.exc_info()[0]
+                                print sys.exc_info()
                                 
                 except:
                     print 'id : ' + str(num)

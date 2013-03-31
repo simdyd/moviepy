@@ -5,11 +5,11 @@
     {% include "scheleton/header.html" %}
     <body >
     	<script>
-    		function change_page_list(page,genere,supporto,no_thumbnail=0,no_video=0){
+    		function change_page_list(page,genere,supporto,kindlist=''){
 				$.ajax({
 					type: "GET",
 					url: "/ws/change_list_page/",
-					data: "page="+page+"&genere="+genere+"&supporto="+supporto+"&no_thumbnail="+no_thumbnail+"&no_video="+no_video,
+					data: "page="+page+"&genere="+genere+"&supporto="+supporto+"&kindlist="+kindlist,
 					success: function(msg){
 						$("#pagination").html(msg);
 					}	

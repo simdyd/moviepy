@@ -44,7 +44,7 @@ def get_default_parameter():
 #from bloom.device.decorators import detect_device
 def get_film_senza_video(request):
     
-    film_list=Movie.objects.filter(video_file=None).order_by('id')
+    film_list=Movie.objects.filter(video_file=None).order_by('-anno')
     
     if film_list!=None:            
         items=get_pagination_film(1,film_list)
@@ -60,7 +60,7 @@ def get_film_senza_video(request):
     #parameters['form'] = form
     parameters['film_list'] = items
     parameters['genere']=0
-    parameters['no_video']=1
+    parameters['kindlist']='no_video'
     parameters['supporto']=0
     
     t = loader.get_template(settings.SITE_TEMPLATE_PAGES_BASE_PATH +  'home.html')
@@ -95,7 +95,8 @@ def get_film_senza_thumbnail(request):
     #parameters['form'] = form
     parameters['film_list'] = items
     parameters['genere']=0
-    parameters['no_thumbnail']=1
+    parameters['kindlist']='no_thumbnail'
+    
     parameters['supporto']=0
     
     t = loader.get_template(settings.SITE_TEMPLATE_PAGES_BASE_PATH +  'home.html')
@@ -129,7 +130,8 @@ def get_film_senza_locandine(request):
     #parameters['form'] = form
     parameters['film_list'] = items
     parameters['genere']=0
-    parameters['no_thumbnail']=1
+    
+    parameters['kindlist']='no_loca'
     parameters['supporto']=0
     
     t = loader.get_template(settings.SITE_TEMPLATE_PAGES_BASE_PATH +  'home.html')

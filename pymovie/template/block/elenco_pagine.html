@@ -10,7 +10,7 @@
 		
 	{% for page in film_list.paginator.page_range %}
 		
-			<a href="#" onclick="change_page_list({{ page }},{{ genere }},{{ supporto }},{% if no_thumbnail %}{{ no_thumbnail}}{% else %}0{% endif %},{% if no_video %}{{ no_video}}{% else %}0{% endif %})"><mark class="stylePageList">{{page}}</mark></a>
+			<a href="#" onclick="change_page_list({{ page }},{{ genere }},{{ supporto }},'{{ kindlist }}')"><mark class="stylePageList">{{page}}</mark></a>
 		
 		{% endfor %}
 <dt >&nbsp;</dt>
