@@ -22,8 +22,12 @@ class Genere(models.Model):
 class Supporti(models.Model):
     nome= models.CharField(verbose_name = "nome",max_length=40)
     gruppo= models.CharField(verbose_name = "gruppo",max_length=20)
+
     def __unicode__(self):
-        return self.nome
+        return self.gruppo + ' - ' + self.nome
+
+    class Meta: 
+	ordering = ['gruppo','nome']
 
 
 

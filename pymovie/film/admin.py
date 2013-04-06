@@ -19,7 +19,9 @@ admin.site.register(MovieLink,MovieLinkAdmin)
 admin.site.register(MovieMedia)
 
 class SupportoInLine(admin.TabularInline):
+    #fields = ("supporto__nome","supporto__gruppo")
     model = Movie.supporto.through
+    raw_id_fields = ("supporti",)
     extra=1
     
 class AttoriInLine(admin.TabularInline):
@@ -65,7 +67,7 @@ admin.site.register(MovieFoto, MovieFotoAdmin)
 class MovieAdmin(admin.ModelAdmin):
     search_fields = ['titolo','titolo_originale','id',]
     list_display = ('id','titolo','genere','anno',)
-    raw_id_fields = ('regia','fotografia','sceneggiatura','musica','produttore')
+    raw_id_fields = ('regia','fotografia','sceneggiatura','musica','produttore','supporto')
     fieldsets=(
                (None,{
                       'fields': ('titolo', 'titolo_originale', 'trama', 'recensione','genere','durata','anno','formato')
@@ -75,7 +77,7 @@ class MovieAdmin(admin.ModelAdmin):
                               'fields': ('video_file','file_durata','file_bitrate','file_audio','file_video','qual_audio','qual_video')
                               })
                )
-    exclude = ('attori','supporto',)
+    exclude = ('attori','supporto')
 
     inlines = [
         MovieFotoInLine,
@@ -96,6 +98,8 @@ admin.site.register(Movie, MovieAdmin)
 
 class SupportiAdmin(admin.ModelAdmin):
     search_fields = ['nome']
+    list_display = ['nome','gruppo']
+    list_filter = ['gruppo',]
     save_as = True
     save_on_top = True
     
