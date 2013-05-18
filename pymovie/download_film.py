@@ -26,3 +26,11 @@ for link in elenco_link:
     #print 'titolo : ' + film.titolo
     download_auto(link,'mymovies')
     
+    
+elenco_link=MovieLink.objects.filter(tipo='coming',download=False)
+
+for link in elenco_link:
+    film=Movie.objects.get(id=link.movie.id)
+    print 'id: ' + str(link.movie.id)
+    #print 'titolo : ' + film.titolo
+    download_auto(link,'coming')

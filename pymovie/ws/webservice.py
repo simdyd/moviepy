@@ -5,12 +5,49 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.template import Context, loader, RequestContext
 from django.utils import simplejson
-from film.models import Movie, Supporti, MovieFoto
+from film.models import Movie, Supporti, MovieFoto,Genere
 from film.views import get_film_list,get_pagination_film
 from persone.models import Persona
 import datetime
 import sys
 import urllib
+
+def get_mobile_film_img(request,movie_id):
+    movie=Movie.objects.get(id=movie_id)
+    moviefoto=MovieFoto.objects.filter(movie=movie).order_by('ordine')[0]
+    url=moviefoto.foto.getLowUrl()
+    
+    response = HttpResponse(url, content_type="text/plain")
+    return response
+
+def get_mobile_film_trama(request,movie_id):
+    movie=Movie.objects.get(id=movie_id)
+    trama=movie.trama.replace('<br />',chr(13)+chr(10))
+    response = HttpResponse(trama, content_type="text/plain")
+    return response
+
+def get_mobile_film_list_genere(request,genere):
+    genere=Genere.objects.get(nome=genere)
+    film_list=Movie.objects.filter(genere=genere)
+    film_out=''
+    for film in film_list:
+        if film_out!='':
+            film_out+=','
+        film_out+=str(film.id) + ' - ' + film.titolo
+    
+    response = HttpResponse(film_out, content_type="text/plain")
+    return response
+
+def get_mobile_genere_list(request):
+    lista_generi=Genere.objects.all()
+    generi_out=''
+    for genere in lista_generi:
+        if generi_out!='':
+            generi_out+=','
+        generi_out+=genere.nome
+    
+    response = HttpResponse(generi_out, content_type="text/plain")
+    return response
 
 def get_movie_list_spalla(request):
     tipo=request.GET['tipo']

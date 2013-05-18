@@ -40,7 +40,7 @@ class Movie(models.Model):
     trama = models.TextField(verbose_name = "Trama",blank=True,null=True)
     recensione = models.TextField(verbose_name = "Recensione",blank=True,null=True)
     
-    genere = models.ForeignKey(Genere,verbose_name="Genere",blank=True,null=True)
+    genere = models.ManyToManyField(Genere,verbose_name="Genere",blank=True,null=True)
     durata = models.CharField(verbose_name = "Durata",max_length=30,blank=True,null=True)
     anno = models.IntegerField(verbose_name="anno",blank=True,null=True)
     attori = models.ManyToManyField(Persona,verbose_name="Attori",related_name='attori', blank=True, null=True, limit_choices_to = {'professione__short_id':  'ATT'})
@@ -135,6 +135,9 @@ class Movie(models.Model):
     
     def get_regista(self):
         return self.regia.all().order_by('cognome')
+    
+    def get_generi(self):
+        return self.genere.all().order_by('nome')
     
     def get_supporti(self):
         return self.supporto.all().order_by('nome')

@@ -21,7 +21,7 @@ import urllib
 
 if settings.USE_WIKIPEDIA==True:
     from download.download_wikipedia import get_pers_wikipedia
-
+from download.downloadcoming import get_pers_coming
 # Create your views here.
 logger_download = logging.getLogger('movie_download')
 
@@ -200,15 +200,19 @@ def download_pers(personalink):
     if (personalink.link!=None):
         logger_download.info('Scarico i dati della persona ' + str(persona.id))
         result=None
+        
         if (personalink.tipo_link=='35mm'):
             result=get_pers_35mm(personalink.link)
         if (personalink.tipo_link=='wikipedia') and (settings.USE_WIKIPEDIA==True):
             
             result=get_pers_wikipedia(personalink.link)
+        if (personalink.tipo_link=='coming'):
+            result=get_pers_coming(personalink.link)
             
         if (result!=None):
             logger_download.info('Scarico il link ' + personalink.link)
-            persona.sesso=result['sesso']
+            if result.sesso!=None:
+                persona.sesso=result['sesso']
             #print persona.sesso
             if result['luogo_nascita']!=None:
                 persona.luogo_nascita=result['luogo_nascita']
@@ -219,6 +223,7 @@ def download_pers(personalink):
                     persona.data_nascita=datetime.datetime.strptime(result['data_nascita'], '%d/%m/%Y')
             except:
                 pass
+            
             personalink.download=1
             try:
                 personalink.save()

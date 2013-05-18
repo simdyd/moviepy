@@ -342,7 +342,10 @@ def save_film_ext(film,dati):
         if dati['durata']!=None:
             film.durata=dati['durata']
         if dati['anno']!=None:
-            film.anno=dati['anno']
+            try:
+                film.anno=int(dati['anno'])
+            except:
+                print 'problemi con l\'anno'
         if dati['link']!=None:
             try:
                 link=MovieLink.objects.get(movie=film,tipo=dati['tipo'])
@@ -358,14 +361,19 @@ def save_film_ext(film,dati):
         if dati['nazione']!=None:
             film.paese=dati['nazione'][:20]
         if dati['genere']!=None:
-            try:
-                genere=Genere.objects.get(nome=dati['genere'])
-            except:
-                genere=Genere()
-                genere.nome=dati['genere'][:20]
-                genere.save()
+            generi_list=[]
+            
+            for genere_tmp in dati['genere'].split(','):
+                genere_tmp=genere_tmp.strip()[:20]
+                try:
+                    genere=Genere.objects.get(nome=genere_tmp)
+                except:
+                    genere=Genere()
+                    genere.nome=genere_tmp
+                    genere.save()
+                generi_list.append(genere)
             #print 'id genere ' + str(genere.id)
-            film.genere=genere
+            film.genere=generi_list
         if dati['descrizione']!=None:
             film.trama=dati['descrizione']
         else:
@@ -446,7 +454,7 @@ def download_auto_view(request,film_id,tipo='35mm'):
         #film=Movie.objects.get(id=link.movie.id)
         #print 'id: ' + str(link.movie.id)
         #print 'titolo : ' + film.titolo
-        download_auto(link,'35mm')
+        download_auto(link,tipo)
     
     
     parameters=get_default_parameter()
@@ -475,21 +483,37 @@ def download_auto(link,tipo='35mm'):
         result,persone,link_foto=get_info_mymovies(link.link,0)
         download_foto(movie,link_foto)
     
+    if tipo=='coming':
+        result,persone,link_foto=get_info_comingsoon(link.link,0)
+        
+        download_foto(movie,link_foto)
+        
+        #print result
+        
+        
+    save=0
     if result:
-        save_film_ext(movie,result)
+        logger_download.info(result)
+        try:
+            save_film_ext(movie,result)
+            save=1
+        except:
+            logger_download.info(sys.exc_info())
+            save=0
         
         #try:
         if tipo=='35mm':
             try:
                 link_foto=get_link_foto_35mm(result['gallery_link'])
+                download_foto(movie,link_foto)
             except:
                 link_foto=None
-        download_foto(movie,link_foto)
-    
+            
+        
     if persone:
         save_persone_ext(movie,persone)
     
-        
+    return(save)
 # Create your views here.
 def download(request,film_id,link,tipo='35mm'):
     film=Movie.objects.get(id=film_id)

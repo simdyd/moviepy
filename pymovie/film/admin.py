@@ -26,6 +26,9 @@ class SupportoInLine(admin.TabularInline):
     
 class AttoriInLine(admin.TabularInline):
     model = Movie.attori.through
+    
+    #readonly_fields=( "persona__admin_image",)
+    #fields = ('persona','persona__admin_image')
     raw_id_fields = ("persona",)
     extra=1
 
@@ -66,7 +69,7 @@ admin.site.register(MovieFoto, MovieFotoAdmin)
 
 class MovieAdmin(admin.ModelAdmin):
     search_fields = ['titolo','titolo_originale','id',]
-    list_display = ('id','titolo','genere','anno',)
+    list_display = ('id','titolo','anno',)
     raw_id_fields = ('regia','fotografia','sceneggiatura','musica','produttore','supporto')
     fieldsets=(
                (None,{

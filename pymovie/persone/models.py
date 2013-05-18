@@ -55,7 +55,9 @@ class Persona(models.Model):
         
     thumb.allow_tags = True
 
-   
+    def admin_image(self):
+        return self.foto.all()[0].low()
+    admin_image.allow_tags = True
         
     def get_photo(self):
         #foto=self.foto.all()

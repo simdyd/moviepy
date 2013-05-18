@@ -78,7 +78,10 @@
 				<ul class='site_content'>
 				<li><h4>Titolo Originale:</h4><p align='right'>{{ film.titolo_originale }}</p></li>
 				{% if film.studio %}<li>Studio: <span class="alignright">{{ film.studio }}</span></li>{% endif %}
-				<li>Genere: <span class="alignright">{{ film.genere }}</span></li>
+				<li>Genere: <span class="alignright">
+					{% for genere in film.get_generi %}
+						{{ genere }}
+					{% endfor %}</span></li>
 				
 				
 				<li><h4>Sceneggiatura: </h4><p align='right'>{% for persona in film.get_sceneggiatori %}

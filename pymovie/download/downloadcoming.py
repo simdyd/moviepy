@@ -2,10 +2,157 @@ import urllib, urllister
 from django.db import models
 from django.conf import settings
 
+from BeautifulSoup import BeautifulSoup
+
 site_base='http://www.comingsoon.it/'
 path_base=settings.PATH_BASE
 
+def get_pers_coming(link):
+    link_ori=link
+    if 'http://' not in link:
+        link=site_base[:-1]+link
+    print link
+    urllib.urlretrieve(link,path_base+'tmp/file_pers_coming.html')
+    input=open(path_base+'tmp/file_pers_coming.html')
+    pagina=input.read()
+    input.close()
+    result={}
+    result['luogo_nascita']=None
+    result['data_nascita']=None
+    result['biografia']=None
+    
+    r=BeautifulSoup(pagina)
+    
+    result['nome']=r.find('h1',{"class" : "titoloFilm"}).string
+    
+    elenco_voci=r.findAll('span', {"class" : "vociFilm"})
+    for voce in elenco_voci:
+        
+        if voce.string!=None:
+            if 'Nasce a:' in voce.string:
+                result['luogo_nascita']=voce.nextSibling.string
+                
+            if 'il:' in voce.string:
+                result['data_nascita']=voce.nextSibling.string
+                
+            if 'la Biografia di' in voce.string:
+                result['biografia']=voce.nextSibling.string
+    
+    result['link_foto']=None
+                
+    elencoimmagini=r.findAll('a')
+    for immagine in elencoimmagini:
+        #print immagine
+        try:
+            if immagine['rel']=='lightbox':
+                result['link_foto']=immagine['href']
+                
+        except:
+            pass
+    
+    
+    #result['nome']=None
+    result['cognome']=None
+    result['sesso']=None
+    
+    
+    return result
+
 def get_info_comingsoon(link,link_type=1):
+    link=str(link).replace('&&','?')
+    link=str(link).replace('|','/')
+    if link_type==1:
+        link=site_base+link
+    #print 'link' + link
+    urllib.urlretrieve(link,path_base+'tmp/file_info_comingsoon.html')
+    input=open(path_base+'tmp/file_info_comingsoon.html')
+    pagina=input.read()
+    input.close()
+    
+    result={}
+    persone={}
+    foto_link={}
+    
+    count_persone=0
+    result['link']=link
+    
+    
+    #Trama 
+    stringa="<span class='vociFilm'>Trama del film"
+    pos=pagina.find(stringa)
+    pos=pagina.find("<br />",pos)
+    pos2=pagina.find("</div>",pos+6)
+    result['descrizione']=pagina[pos+6:pos2].decode('iso-8859-1')
+    
+    r=BeautifulSoup(pagina)
+    #<h1 itemprop='name' class='titoloFilm fs26'>Nancy Drew</h1>
+    result['titolo']=r.find('h1',{"class" : "titoloFilm fs26"}).string
+    #print titolo
+    
+    #<h2 class='titoloFilm2'>(Nancy Drew)</h2>
+    result['titolo_originale']=r.find('h2',{"class" : "titoloFilm2"}).string.replace('(','').replace(')','')
+    #print titolo_originale
+    
+    #Cerco la locandina
+    try:
+        locandina=r.find('img',{"class" : "ScheLoc"})
+        tmp=locandina.previous
+        foto_link[0]=tmp['href']
+    except:
+        pass
+        
+    elenco_voci=r.findAll('span', {"class" : "vociFilm"})
+    for voce in elenco_voci:
+        print voce.string
+        #if voce.nextSibling==None:
+        #    print voce.next.string
+        #else:
+        #    print voce.nextSibling.string
+        #print '--------------------------------'
+        if voce.string!=None:
+            if 'trama del film' in voce.string:
+                print voce.nextSibling.nextSibling.nextSibling.string
+            if 'REGIA' in voce.string:
+                persone[count_persone,'nome']=voce.nextSibling.string
+                persone[count_persone,'professione']='REG'
+                persone[count_persone,'link']=voce.nextSibling['href']
+                persone[count_persone,'tipo_link']='coming'
+                count_persone=count_persone+1
+                
+            if 'ATTORI' in voce.string:
+                attore= voce.nextSibling.nextSibling
+                name=attore.name
+                while name=='a':
+                    
+                    persone[count_persone,'nome']=str(attore.string)
+                    persone[count_persone,'professione']='ATT'
+                    persone[count_persone,'link']=attore['href']
+                    persone[count_persone,'tipo_link']='coming'
+                    count_persone=count_persone+1
+                    
+                    attore=attore.nextSibling.nextSibling
+                    try:
+                        name=attore.name
+                    except:
+                        name=None
+            if 'GENERE' in voce.string:
+                result['genere']=voce.nextSibling.string
+                #print 'genere'
+            if 'DURATA' in voce.string:
+                result['durata']=voce.nextSibling.string
+                #print 'durata'
+            if 'PAESE' in voce.string:
+                #print 'paese'
+                tmp=str(voce.nextSibling.string)
+                pos=tmp.rfind(' ')
+                result['anno']=tmp[pos:].strip()
+                result['nazione']=tmp[:pos].strip()
+                
+            
+    result['tipo']='coming'
+    return result,persone,foto_link
+    
+def get_info_comingsoon_old(link,link_type=1):
     link=str(link).replace('&&','?')
     link=str(link).replace('|','/')
     if link_type==1:
@@ -116,7 +263,7 @@ def get_info_comingsoon(link,link_type=1):
         pos=tmp.find('<a href="')
       
     #1print tmp
-    
+    result['tipo']='coming'
     return result,persone,foto_link
     
 
