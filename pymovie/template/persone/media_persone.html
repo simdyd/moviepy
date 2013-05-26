@@ -1,23 +1,31 @@
-<script type="text/javascript">
-			jQuery(document).ready(function($){
-			  $('.lightbox').lightbox();
-			});
-		</script>
-						<div class="box">
-							<h2>
-								Foto
-								<span class="l"></span><span class="r"></span>
-							</h2>
-							<div class="hide"><span class="s">Show</span><span class="h">Hide</span></div>
-							<div class="block">
-								<ul class="gallery">
+<div class="widget">
+    <div class="widget-title">
+       <h4><i class="icon-user"></i>Foto</h4>
+       <span class="tools">
+       <a href="javascript:;" class="icon-chevron-down"></a>
+       <a href="javascript:;" class="icon-remove"></a>
+       </span>                    
+    </div>
+    <div class="widget-body">
+    	<div class="row-fluid">
+    		{% for foto in persona.get_photo %}
+		        	
+				<div class="span2">
+					<div class="thumbnail">
+						<div class="item">
+							<a class="fancybox-button" data-rel="fancybox-button" title="Photo" href="{{ foto.getUrl }}">
+								<div class="zoom">
+									<img src="{{ foto.getLowUrl }}" alt="Photo" />
+									<div class="zoom-icon"></div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
 
-	
-	{% for foto in persona.get_photo %}
-		<li>
-		<a href='{{ foto.getUrl }}' class="lightbox"><img src="{{ foto.getLowUrl }}" width=95 border='0'></a>
-		</li>
-	{% endfor %}
-	</ul>
-	</div>
-	</div>
+			{% endfor %}
+    		
+    	</div>
+    </div>
+</div>
+						

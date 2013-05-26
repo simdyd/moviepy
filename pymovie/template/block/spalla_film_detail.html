@@ -1,14 +1,26 @@
 {% autoescape off %}
-	<dt><a href='/scheda/{{ film.id }}/'>{{ film.titolo }}</a></dt>
+	<h4><a href='/scheda/{{ film.id }}/'>{{ film.titolo }}</a></h4>
+	<div class="text-center profile-pic">
     {{ film.thumb }}
-    <dd>Anno : {{ film.anno }} </dd>
-    <dd>Genere : {{ film.genere.nome }} </dd>
-    <dd>{{film.durata }}</dd>
-    <dt>Attori</dt>
+   	</div>
+    <table class="table table-borderless">
+    <tbody>
+    <tr><td>Anno :</td><td>{{ film.anno }}</td></tr>
+    <tr><td>Genere :</td><td>{% for genere in film.get_generi %}
+                    			{% if forloop.first %}
+                    				{{ genere }}
+                    			{% else %}
+                    				, {{ genere}}
+                    			{% endif %}
+							{% endfor %}
+							</td></tr>
+    <tr><td>Durata :</td><td>{{film.durata }}</td></tr>
+    </tbody>
+    </table>
+    <h4>Attori</h4>
+    <ul class="icons push">
     {% for attore in film.get_attori %}
-    
-    
-    
-        <dd><a href='/persone/scheda/{{ attore.id }}'>{{ attore.nome }} {{ attore.cognome }}</dd>
+    	<li><i class="icon-user"></i><a href='/persone/scheda/{{ attore.id }}'>{{ attore.nome }} {{ attore.cognome }}</li>
     {% endfor %}
+    </ul>
 {% endautoescape %}

@@ -41,6 +41,38 @@ def get_default_parameter():
 
 #detect dispositivi mobili...
 
+def dashboard(request):
+    parameters=get_default_parameter()
+    
+    totale_film=Movie.objects.all().count()
+    
+    film_foto=MovieFoto.objects.all().values('movie').distinct().count()
+    film_loca=MovieFoto.objects.filter(tipo='locandina').values('movie').distinct().count()
+    
+    film_no_foto=totale_film-film_foto
+    film_no_loca=totale_film-film_loca
+    film_no_ori=Movie.objects.filter(video_file=None).count()
+    
+    parameters['totale_film'] = totale_film
+    parameters['film_foto'] = film_foto
+    parameters['film_loca'] = film_loca
+    parameters['film_no_loca'] = film_no_loca
+    parameters['film_no_foto'] = film_no_foto
+    parameters['film_no_ori'] = film_no_ori
+    
+    
+    parameters['page_tipe'] = 'dashboard'
+    #parameters['form'] = form
+    #parameters['film_list'] = items
+    parameters['genere']=0
+    parameters['kindlist']='no_video'
+    parameters['supporto']=0
+    
+    t = loader.get_template(settings.SITE_TEMPLATE_PAGES_BASE_PATH +  'home.html')
+    c = RequestContext( request, parameters)
+    return HttpResponse(t.render(c))
+
+
 #from bloom.device.decorators import detect_device
 def get_film_senza_video(request):
     
@@ -704,7 +736,11 @@ def scheda(request,film_id):
     
     film=Movie.objects.get(id=film_id)
     filmlinks=MovieLink.objects.filter(movie=film)
-    filmmedia=MovieMedia.objects.filter(movie=film)
+    
+    filmmedia_orig=MovieMedia.objects.filter(movie=film,tipo='orig')
+    filmmedia_youtube=MovieMedia.objects.filter(movie=film,tipo='youtube')
+    filmmedia_local=MovieMedia.objects.filter(movie=film,tipo='local')
+    
     #generi_list,form=get_default()
     parameters=get_default_parameter()
     parameters=theme(parameters)
@@ -713,7 +749,9 @@ def scheda(request,film_id):
     parameters['client'] = client
     parameters['user_agent'] = request.META['HTTP_USER_AGENT']
     parameters['filmlinks'] = filmlinks
-    parameters['filmmedia'] = filmmedia
+    parameters['filmmedia_orig'] = filmmedia_orig
+    parameters['filmmedia_youtube'] = filmmedia_youtube
+    parameters['filmmedia_local'] = filmmedia_local
     #parameters['generi_list'] = generi_list
     parameters['page_tipe'] = 'scheda'
     #parameters['form'] = form

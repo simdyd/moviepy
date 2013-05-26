@@ -6,14 +6,6 @@ from film.models import Movie,MovieFoto
 def movie_vars(request):
     curr_site = Site.objects.get_current();
     #user_info = None
-    MOVIE=Movie.objects.all().count()
-    
-    MOVIE_PICS=MovieFoto.objects.all().values('movie').distinct().count()
-    MOVIE_LOCA=MovieFoto.objects.filter(tipo='locandina').values('movie').distinct().count()
-    
-    MOVIE_NO_PICS=MOVIE-MOVIE_PICS
-    MOVIE_NO_LOCA=MOVIE-MOVIE_LOCA
-    MOVIE_NO_ORI=Movie.objects.filter(video_file=None).count()
     MEDIA_PATH_SITE_REPOSITORY = settings.MEDIA_PATH_SITE_REPOSITORY
     MEDIA_URL_SITE_REPOSITORY = settings.MEDIA_URL
     PREVIEW_URL = settings.PREVIEW_URL
@@ -79,9 +71,7 @@ def movie_vars(request):
 
     return {
             'SITE' : curr_site.domain,
-            'MOVIE_NO_PICS':MOVIE_NO_PICS,
-            'MOVIE_NO_ORI':MOVIE_NO_ORI,
-            'MOVIE_NO_LOCA':MOVIE_NO_LOCA,
+            
             'PREVIEW_URL' : PREVIEW_URL,
             'MEDIA_URL' : settings.MEDIA_URL,
             'MEDIA_PATH_SITE_REPOSITORY' : MEDIA_PATH_SITE_REPOSITORY,

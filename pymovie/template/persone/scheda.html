@@ -1,34 +1,58 @@
-<div class="grid_8">
-						<div class="box">
-							<h2>
-								{{ persona.nome }} {{ persona.cognome}}
-								<span class="l"></span><span class="r"></span>
-							</h2>
-							
-							<div class="block">
-								<div class="block_in">	
-		<h3>{{ persona.nome }} {{ persona.cognome}}</h3>
-		
-		{% include 'persone/dettagli_persona.html' %}
-		
-		<h4>Filmografia</h4>
-		{% for film in filmografia %}
-			<p><b>{{ film.anno }} </b> <a onmouseover="mostra_detail_film_spalla({{ film.id }});return false;" href='/scheda/{{ film.id }}/'>{{ film.titolo }}</a></p>
-		
-		{% endfor %}
-		
-		{% if user.is_superuser %}<a target="_blank" href="/admin/persone/persona/{{ persona.id }}/" class="button medium blue"> admin </a>{% endif %}
-		{% include 'persone/elenco_link.html' %}
-	
-		
-		<h4>Biografia</h4>
-		<p>{{ persona.biografia|safe }}</p>
-	
-		
+<div class="span8">
+  	<div class="widget">
+        <div class="widget-title">
+           <h4><i class="icon-user"></i>Scheda Persona</h4>
+           <span class="tools">
+           <a href="javascript:;" class="icon-chevron-down"></a>
+           <a href="javascript:;" class="icon-remove"></a>
+           </span>                    
+        </div>
+		<div class="widget-body">
+			<div class="span3">
+	            <div class="text-center profile-pic">
+	            	{% for foto in persona.get_photo %}
+						{% if forloop.first %}
+							<img src="{{ foto.getLowUrl }}" width="93"  alt="photo 1" class="left" />
+						{% endif %}
+					{% endfor %}
+					{% ifequal persona.has_photo 0 %}
+						<img src="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/noimage.jpg" width="93"  alt="photo 1" class="left" />
+					{% endifequal %}
+	            </div>
+	            <ul class="nav nav-tabs nav-stacked">
+	            	{% if user.is_superuser %}<li><a target="_blank" href="/admin/persone/persona/{{ persona.id }}/" ><i class="icon-edit"></i>admin </a></li>{% endif %}
+	            
+	            </ul>
+	            {% include "persone/elenco_link.html" %}
+	       	</div>
+	       	<div class="span6">
+                <h4>{{ persona.nome }} {{ persona.cognome}}</h4>
+	       		{% include 'persone/dettagli_persona.html' %}
+	       		
+	       		<h4>Biografia</h4>
+                <p class="push">{{ persona.biografia|safe }}
+                </p>
+	       	</div>
+	       	<div class="span3">
+            	<h4>Filmografia</h4>
+            	<ul class="icons push">
+            		{% for film in filmografia %}
+						<li><i class="icon-film"></i>{{ film.anno }} <strong></strong><a onmouseover="mostra_detail_film_spalla({{ film.id }});return false;" href='/scheda/{{ film.id }}/'>{{ film.titolo }}</a></strong></li>
+					{% endfor %}
+            		
+
+            	</ul>
+            </div>
+            <div class="space5"></div>
+	   	</div>
 	</div>
-	</div>
-		
-	</div>
-	
 	{% include 'persone/media_persone.html' %}
 </div>
+
+
+
+		
+		
+	
+		
+

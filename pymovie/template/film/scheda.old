@@ -1,0 +1,95 @@
+
+<div class="grid_8">
+						<div class="box">
+							<h2>
+								{{ film.titolo }}
+								<span class="l"></span><span class="r"></span>
+							</h2>
+							
+							<div class="block">
+								<div class="block_in">
+						
+						<h1>{{ film.titolo }}</h1>
+						<h3>&nbsp;( <a href='/anno/{{ film.anno }}/' onmouseover="mostra_elenco_film_spalla({{ film.anno }},'Y');return false;">{{ film.anno }}</a> ) </h3> 
+				<div class="grid_2">
+			
+				
+				{% ifequal film.has_photo 0 %}
+					<img src="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/noimage.jpg" width="93"  alt="photo 1" class="left" />
+				{% endifequal %}
+				</div>
+				
+				<div class="grid_5">
+				<ul class='site_content'>
+									
+				
+				
+				
+				
+				
+				
+				
+				
+				</ul>
+				</div><div class="grid_5">
+				<ul class='site_content'>
+				
+				
+				
+				
+				
+				<li><h4>Sceneggiatura: </h4><p align='right'>{% for persona in film.get_sceneggiatori %}
+								{% if forloop.first %}
+									{{ persona.nome }} {{ persona.cognome }}
+								{% else %} 
+									<br />{{ persona.nome }} {{ persona.cognome }}
+								{% endif %} 
+							 {% endfor %}</p></li>
+				
+		  		{% for persona in film.get_fotografi %}
+		  			
+								{% if forloop.first %}
+									<li><h4>Fotografia: </h4><p align='right'>
+									{{ persona.nome }} {{ persona.cognome }}
+								{% else %} 
+									<br />{{ persona.nome }} {{ persona.cognome }}
+								{% endif %}
+								
+								{% if forloop.last %}
+									</p></li>
+								{% endif %} 
+							{% endfor %}
+				{% for persona in film.get_musica %}
+								{% if forloop.first %}
+									<li><h4>Musica: </h4><p align='right'>
+									{{ persona.nome }} {{ persona.cognome }}
+								{% else %} 
+									<br />{{ persona.nome }} {{ persona.cognome }}
+								{% endif %}
+								{% if forloop.last %}
+									</p></li>
+								{% endif %}
+							{% endfor %}
+				<li><h4>Produttore: </h4><p align='right'>{% for persona in film.get_produttori %}
+								{% if forloop.first %}
+									{{ persona.nome }} {{ persona.cognome }}
+								{% else %} 
+									<br />{{ persona.nome }} {{ persona.cognome }}
+								{% endif %} 
+							{% endfor %}</p></li>
+				
+				
+				</ul>
+				</div>
+				
+				
+				</div>
+					</div>
+					</div>
+					
+          		
+        		{% include "film/media_film.html" %}
+
+					
+				</div>
+		

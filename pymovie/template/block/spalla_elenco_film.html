@@ -1,20 +1,22 @@
 {% if persona %}
 
-<h3>{{ persona.nome }} {{ persona.cognome}}</h3>
+	<h4>{{ persona.nome }} {{ persona.cognome}}</h4>
 	{% if persona.has_photo %}
+	<div class="text-center profile-pic">
 	<a href='{{ persona.getMediumUrl }}'><img src='{{ persona.getLowUrl }}'></a>
+	</div>
 	{% endif %}
 {% endif %}
 {% if supporto %}
-	<h3>{{ supporto }}</h3>
+	<h4>{{ supporto }}</h4>
 {% endif %}
 {% if anno %}
-	<h3>Anno {{ anno }}</h3>
+	<h4>Anno {{ anno }}</h4>
 {% endif %}
-<ul class="list11">
+<h4>Film</h4>
+    <ul class="icons push">
 {% for movie in movie_list %}
-	<li>
-		<a href="/scheda/{{ movie.id }}/">{{ movie.titolo }}</a>
-	</li>
+	<li><i class="icon-film"></i><a href="/scheda/{{ movie.id }}/">{{ movie.titolo }}</a></li>
 {% endfor %}
-</ul>    
+	</ul>
+    

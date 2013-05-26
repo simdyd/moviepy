@@ -1,83 +1,74 @@
-<div class="box">
-							<h2>
-								Basic Table
-								<span class="l"></span><span class="r"></span>
-							</h2>
-							<div class="block">
-								<div class="block_in">
-<div>
-	<span class="step-links">
-		{% if film_list.has_previous %}
-			<a href="#" onclick="change_page_list({{ film_list.previous_page_number }},{{ genere }},{{ supporto }},'{{ kindlist }}')"><mark class="style10">previous</mark></a>
-		{% endif %}
 
-		<span class="current">
-			<mark class="style8">Page {{ film_list.number }} of {{ film_list.paginator.num_pages }}.</mark>
-		</span>
+    
 		
-		{% if film_list.has_next %}
-			<a href="#" onclick="change_page_list({{ film_list.next_page_number }},{{ genere }},{{ supporto }},'{{ kindlist }}')"><mark class="style10">next</style></a>
-		{% endif %}
-	</span>
-</div>
-<ul class="site_content">
-{% for film in film_list.object_list %}
-	{% if forloop.first %}
-		<hr>
-	{% endif %}
-		<div class="grid_12">
-    	<h1><a onmouseover="mostra_detail_film_spalla({{ film.id }});return false;">{{ film.titolo}}</a></h1>
-    	</div>
-    	<div class="grid_2">
-		{% if film.get_thumbnail %}
-			
-			<img src="{{ film.get_thumbnail.getLowUrl }}" width="93"  alt="photo 1" class="left" />
-		{% else %}
-				<img src="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/noimage.jpg" width="93"  alt="photo 1" class="left" />
-		{% endif %}
-		</div>
-		<div class="grid_5">
-        <p><b>Genere: </b>{{ film.genere }}</p>
-		<p><b>Durata: </b>{{ film.durata }}</p>
-		<p><b>Anno: </b>{{ film.anno }}</p>
-		</div>
-		<div class="grid_5">
-			
-		<p><b>Id: </b>{{ film.id }}</p>
-		<p><b>Supporto: </b>{% for supporto in film.get_supporti %}<a href='/supporto/{{ supporto.id }}/' onmouseover="mostra_elenco_film_spalla({{ supporto.id }},'S');return false;">{{ supporto.nome }}</a> {% endfor %}
-			
-		<p><b>Regia:</b> {% for regista in film.get_regista %}<a href='/persone/scheda/{{ regista.id }}/' onmouseover="mostra_elenco_film_spalla({{ regista.id }},'R');return false;">{{ regista.nome }} {{ regista.cognome }}</a> {% endfor %}</p>
-		</div>
-		{% if not film.video_file %}
-		<div class="grid_12" align='center'>
-			<p>Attenzione file non presente</p>
-		</div>
-		{% endif %}
-		<div class="grid_12" align='center'>
-		<p><a href="/scheda/{{ film.id }}/" class="button medium blue">Scheda</a>
-		{% if user.is_superuser %}<a target="_blank" href="/admin/film/movie/{{ film.id }}/" class="button medium blue"> admin </a>{% endif %}
-		</p>
-		
-		</div>
-	    <hr>         
-                  
-{% endfor %}
-</ul>
-<div>
-	<span class="step-links">
-		{% if film_list.has_previous %}
-			<a href="#" onclick="change_page_list({{ film_list.previous_page_number }},{{ genere }},{{ supporto }},'{{ kindlist }}')"><mark class="style10">previous</mark></a>
-		{% endif %}
-
-		<span class="current">
-			<mark class="style8">Page {{ film_list.number }} of {{ film_list.paginator.num_pages }}.</mark>
-		</span>
-		
-		{% if film_list.has_next %}
-			<a href="#" onclick="change_page_list({{ film_list.next_page_number }},{{ genere }},{{ supporto }},'{{ kindlist }}')"><mark class="style10">next</style></a>
-		{% endif %}
-	</span>
-</div>
-</div>
+        
+        
+        {% for film in film_list.object_list %}
+        	
+        	<div class="widget" >
+        		<div class="widget-title">
+        			<h4><i class="icon-reorder"></i>{{ film.titolo }}</h4>
+					<span class="tools">
+						<a href="javascript:;" class="icon-chevron-down"></a>
+						<a href="javascript:;" class="icon-remove"></a>
+					</span>
+    			</div>
+    			<div class="widget-body">
+					{% if not film.video_file %}
+							<div class="alert">
+								<button class="close" data-dismiss="alert">×</button>
+								<strong>Warning!</strong> Attenzione file non presente
 							</div>
+					{% endif %}
+			
+					<div class="span12">
+	    				<h3><a onmouseover="mostra_detail_film_spalla({{ film.id }});return false;">{{ film.titolo}}</a></h3>
+	    			</div>
+	    			
+	    			<div class="row-fluid">
+	    			<div class="span2">
+							{% if film.get_thumbnail.getLowUrl %}
+								<img src="{{ film.get_thumbnail.getLowUrl }}" width="93"  alt="photo 1" class="left" />
+							{% else %}
+								<img src="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/noimage.jpg" width="93"  alt="photo 1" class="left" />
+							{% endif %}
+					</div>
+					<div class="span8">
+						<dl class="dl-horizontal">
+							<dt>Genere:</dt>
+							{% for genere in film.get_generi %}<dd>{{ genere }}</dd>{% endfor %}
+							{% if film.durata %}
+							<dt>Durata: </dt>
+							<dd>{{ film.durata }}</dd>
+							{% endif %}
+							<dt>Anno:</dt>
+							<dd>{{film.anno}}</dd>
+							<dt>Id:</dt>
+							<dd>{{ film.id }}</dd>
+							
+							
+							{% for supporto in film.get_supporti %}{% if forloop.first %}<dt>Supporto</dt>{% endif %}<dd><a href='/supporto/{{ supporto.id }}/' onmouseover="mostra_elenco_film_spalla({{ supporto.id }},'S');return false;">{{ supporto.nome }}</a></dd>{% endfor %}
+							
+							
+							{% for regista in film.get_regista %}{% if forloop.first %}<dt>Regia</dt>{% endif %}<dd><a href='/persone/scheda/{{ regista.id }}/' onmouseover="mostra_elenco_film_spalla({{ regista.id }},'R');return false;">{{ regista.nome }} {{ regista.cognome }}</a></dd>{% endfor %}
+						</dl>
+					</div>
+					
+					<div class="span2">
+						
+						<div class="btn-group-vertical">
+						<a href="/scheda/{{ film.id }}/" class="btn btn-primary">Scheda</a>
+						{% if user.is_superuser %}<a target="_blank" href="/admin/film/movie/{{ film.id }}/" class="btn btn-danger"> admin </a>{% endif %}
+						
 						</div>
+            		</div>  
+            	</div>
+          </div>
+                    </div>
+		{% endfor %}
+        
+		
+       {% include "block/block_navigazione_lista_film.html" %}
+       	
+       	
+   

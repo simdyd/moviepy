@@ -1,153 +1,133 @@
-<div class="grid_8">
-						<div class="box">
-							<h2>
-								{{ film.titolo }}
-								<span class="l"></span><span class="r"></span>
-							</h2>
-							
-							<div class="block">
-								<div class="block_in">
-						
-						<h1>{{ film.titolo }}</h1>
-						<h3>&nbsp;( <a href='/anno/{{ film.anno }}/' onmouseover="mostra_elenco_film_spalla({{ film.anno }},'Y');return false;">{{ film.anno }}</a> ) </h3> 
-				<div class="grid_2">
-			
-				{% for foto in film.get_photo %}
+<div class="span8">
+  	<div class="widget">
+        <div class="widget-title">
+           <h4><i class="icon-user"></i>Scheda Film</h4>
+           <span class="tools">
+           <a href="javascript:;" class="icon-chevron-down"></a>
+           <a href="javascript:;" class="icon-remove"></a>
+           </span>                    
+        </div>
+        <div class="widget-body">
+			<div class="span3">
+	            <div class="text-center profile-pic">
+	            	{% for foto in film.get_photo %}
+						{% if forloop.first %}
+							<a href='/gallery/{{ film.id}}/' alt='vai alla gallery'><img src="{{ foto.getLowUrl }}" width="93"  alt="photo 1" class="left" /></a>
+						{% endif %}
+					{% endfor %}
+	            </div>
+	            {% if user.is_superuser %}
+	            <ul class="nav nav-tabs nav-stacked">
+	            	
+	            	
+	            	<li><a target="_blank" href="/admin/film/movie/{{ film.id }}/" ><i class="icon-edit"></i>admin </a></li>
+	            	{% for media in filmmedia_orig %}
+	            		<li><a href='{{ media.file_url }}'><i class="icon-film"></i> {{ media.get_file_name}}</a></li>
+	            	{% endfor %}
+	                
+	            </ul>
+	            {% endif %}
+	            <ul class="nav nav-tabs nav-stacked">
+	            	{% for filmlink in filmlinks %}
+					<li><a href='{{ filmlink.link }}' target='_blank'><i class="icon-pinterest"></i> {{ filmlink.tipo }} </a></li>
+					{% if user.is_superuser %}<li><a href='/download/{{ filmlink.tipo }}/{{ film.id }}/' ><i class="icon-pinterest"></i> {{ filmlink.tipo }} Download</a></li>{% endif %}
+					{% endfor %}
+	            	
+	            </ul>
+	            
+            	{% for supporto in film.get_supporti %}
 					{% if forloop.first %}
-						<a href='/gallery/{{ film.id}}/' alt='vai alla gallery'><img src="{{ foto.getLowUrl }}" width="93"  alt="photo 1" class="left" /></a>
+						<ul class="nav nav-tabs nav-stacked">
+					{% endif %}						
+					<li><a href='/supporto/{{ supporto.id }}/' onmouseover="mostra_elenco_film_spalla({{ supporto.id }},'S');return false;">
+					
+						{{ supporto.nome }}
+					
+					</a></li>
+					{% if forloop.last %}
+						</ul>		
 					{% endif %}
+									
 				{% endfor %}
-				{% ifequal film.has_photo 0 %}
-					<img src="{{ MEDIA_URL_SITE_REPOSITORY }}grafica/noimage.jpg" width="93"  alt="photo 1" class="left" />
-				{% endifequal %}
-				</div>
 				
-				<div class="grid_5">
-				<ul class='site_content'>
-									{% for supporto in film.get_supporti %}
-										{% if forloop.first %}
-											<li>Supporto: <span class="alignright">
-										{% endif %}
-										<a href='/supporto/{{ supporto.id }}/' onmouseover="mostra_elenco_film_spalla({{ supporto.id }},'S');return false;">
-										{% if forloop.first %}
-											{{ supporto.nome }}
-										{% else %}
-											, {{ supporto.nome }}
-										{% endif %}
-										</a>
-										{% if forloop.last %}
-										</span>
-										</li>
-										{% endif %}
-									{% endfor %}
-				
-				<li>
-				Anno: <span class="alignright">{{ film.anno }}</span>
-				</li>
-				
-				<li><h4>Regia: </h4>
-					<p align='right'>
-					{% for regista in film.get_regista %}
-							 	{% if forloop.first %}
-									<a href='/persone/scheda/{{ regista.id }}/' onmouseover="mostra_elenco_film_spalla({{ regista.id }},'R');return false;">{{ regista.nome }} {{ regista.cognome }}</a>
-								{% else %} 
-									<br><a href='/persone/scheda/{{ regista.id }}/' onmouseover="mostra_elenco_film_spalla({{ regista.id }},'R');return false;">{{ regista.nome }} {{ regista.cognome }}</a>
-								{% endif %} 
-							 {% endfor %}
-					</p>
-					
-				</li>
-				<li>
-					<h4>Attori :</h4>
-					<p align='right'>
-				{% for attore in film.get_attori %}
-							 				{% if forloop.first %}
-												<a href='/persone/scheda/{{ attore.id}}/' onmouseover="mostra_elenco_film_spalla({{ attore.id }},'A');return false;">{{ attore.nome }} {{ attore.cognome }}</a>
-											{% else %}
-												<br/><a href='/persone/scheda/{{ attore.id}}/' onmouseover="mostra_elenco_film_spalla({{ attore.id }},'A');return false;">{{ attore.nome }} {{ attore.cognome }}</a>
-											{% endif %}
-							 			 {% endfor %}
-					</p>		 			 
-				</li>
-				
-				<li>durata: <span class="alignright">{{ film.durata }}</span></li>
-				<li>inserito: <span class="alignright">{{ film.data_ins }}</span></li>
-				<li>modificato: <span class="alignright">{{ film.data_mod }}</span></li>
-				</ul>
-				</div><div class="grid_5">
-				<ul class='site_content'>
-				<li><h4>Titolo Originale:</h4><p align='right'>{{ film.titolo_originale }}</p></li>
-				{% if film.studio %}<li>Studio: <span class="alignright">{{ film.studio }}</span></li>{% endif %}
-				<li>Genere: <span class="alignright">
-					{% for genere in film.get_generi %}
-						{{ genere }}
-					{% endfor %}</span></li>
-				
-				
-				<li><h4>Sceneggiatura: </h4><p align='right'>{% for persona in film.get_sceneggiatori %}
-								{% if forloop.first %}
-									{{ persona.nome }} {{ persona.cognome }}
-								{% else %} 
-									<br />{{ persona.nome }} {{ persona.cognome }}
-								{% endif %} 
-							 {% endfor %}</p></li>
-				
-		  		{% for persona in film.get_fotografi %}
-		  			
-								{% if forloop.first %}
-									<li><h4>Fotografia: </h4><p align='right'>
-									{{ persona.nome }} {{ persona.cognome }}
-								{% else %} 
-									<br />{{ persona.nome }} {{ persona.cognome }}
-								{% endif %}
-								
-								{% if forloop.last %}
-									</p></li>
-								{% endif %} 
-							{% endfor %}
-				{% for persona in film.get_musica %}
-								{% if forloop.first %}
-									<li><h4>Musica: </h4><p align='right'>
-									{{ persona.nome }} {{ persona.cognome }}
-								{% else %} 
-									<br />{{ persona.nome }} {{ persona.cognome }}
-								{% endif %}
-								{% if forloop.last %}
-									</p></li>
-								{% endif %}
-							{% endfor %}
-				<li><h4>Produttore: </h4><p align='right'>{% for persona in film.get_produttori %}
-								{% if forloop.first %}
-									{{ persona.nome }} {{ persona.cognome }}
-								{% else %} 
-									<br />{{ persona.nome }} {{ persona.cognome }}
-								{% endif %} 
-							{% endfor %}</p></li>
-				<li>Paese: <span class="alignright">{{ film.paese }}</span></li>
-				{% for filmlink in filmlinks %}
-				
-					<li>{{ filmlink.tipo }} <span class="alignright"><a href='{{ filmlink.link }}' target='_blank'>{{ filmlink.link|urlizetrunc:25  }}</a></span></li>
-					{% if user.is_superuser %}<li>{{ filmlink.tipo }} <span class="alignright"><a href='/download/{{ filmlink.tipo }}/{{ film.id }}/' >Download</a></span></li>{% endif %}
-				{% endfor %}
-				{% if film.formato %}<li>Formato: <span class="alignright">{{ film.formato }}</span></li>{% endif %}
-				{% if user.is_superuser %}<a target="_blank" href="/admin/film/movie/{{ film.id }}/" class="button medium blue"> admin </a>{% endif %}
-				</ul>
-				</div>
-				<div class="grid_12">
-			
-				
-				<h3>Trama</h3>
-				<p>{{ film.trama }}</p>
-				
-				</div>
-				
-				</div>
-					</div>
-					</div>
-					
-          		
-        		{% include "film/media_film.html" %}	
+	        </div>
+	        <div class="span6">
+                <h4>{{film.titolo}} <br/><small>{{film.titolo_originale}}</small></h4>
+                <table class="table table-borderless">
+                    <tbody>
+                    <tr>
+                        <td class="span2">Anno :</td>
+                        <td>
+                            {{ film.anno}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="span2">Durata :</td>
+                        <td>
+                            {{ film.durata}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="span2">Paese :</td>
+                        <td>
+                            {{ film.paese}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="span2">Genere :</td>
+                        <td>
+                    		{% for genere in film.get_generi %}
+                    			{% if forloop.first %}
+                    				{{ genere }}
+                    			{% else %}
+                    				, {{ genere}}
+                    			{% endif %}
+							{% endfor %}        
+                        </td>
+                    </tr>
+                    
+                    {% if film.studio %}<tr><td>Studio:</td><td>{{ film.studio }}</td></tr>{% endif %}
+					{% if film.formato %}<tr><td>Formato: </td><td>{{ film.formato }}</td></tr>{% endif %}
+                    
+                    <tr>
+                   		<td class="span2">Inserito: </td>
+                   		<td>{{ film.data_ins }}</td>
+                   	</tr>
+                   	<tr>
+						<td class="span2">Modificato: </td>
+						<td>{{ film.data_mod }}</td>
+					</tr>
+					</tbody>
+                </table>
+                <h4>Trama</h4>
+                <p class="push">{{ film.trama}}
+                </p>
+            </div>
+            <div class="span3">
+            	<h4>Regia</h4>
+            	<ul class="icons push">
+        			{% for regista in film.get_regista %}
+					 	
+						<li><i class="icon-user"></i><strong><a href='/persone/scheda/{{ regista.id }}/' onmouseover="mostra_elenco_film_spalla({{ regista.id }},'R');return false;">{{ regista.nome }} {{ regista.cognome }}</a></strong></li>
+						 
+					 {% endfor %}
 
-					
-				</div>
-		
+            	</ul>
+            </div>
+            <div class="span3">
+                <h4>Attori</h4>
+                <ul class="icons push">
+                	{% for attore in film.get_attori %}
+                		<li><i class="icon-user"></i> <a href='/persone/scheda/{{ attore.id}}/' onmouseover="mostra_elenco_film_spalla({{ attore.id }},'A');return false;"><strong>{{ attore.nome }} {{ attore.cognome }}</strong><br/></a></li>
+		 				
+					{% endfor %}
+                    
+                    
+                </ul>
+            </div>
+            <div class="space5"></div>
+		</div>
+	</div>
+
+{% include "film/media_film.html" %}
+</div>

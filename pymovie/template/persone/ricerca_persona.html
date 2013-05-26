@@ -1,14 +1,15 @@
 {% if form_persone %}
-<div class="grid_4">
-	<div class="box">
-		<h2>
-			Ricerca Persona
-			<span class="l"></span><span class="r"></span>
-		</h2>
-		
-		<div class="block">
-			<div class="block_in">
-		<form name='form_search_persona' method='post' action='/persone/ricerca/' >
+
+	<div class="widget" >
+        		<div class="widget-title">
+        			<h4><i class="icon-reorder"></i>Ricerca Persona</h4>
+					<span class="tools">
+						<a href="javascript:;" class="icon-chevron-down"></a>
+						<a href="javascript:;" class="icon-remove"></a>
+					</span>
+    			</div>
+    			<div class="widget-body">
+    				<form name='form_search_persona' method='post' action='/persone/ricerca/' >
 				{% csrf_token %}
                 {{ form_persone.as_p }}
                     
@@ -16,9 +17,9 @@
 				<p><input align='center' type='submit' name='cerca_persone' value='cerca'></p>
 				
 			
-   		</form>
-			</div>
-   		</div>
-   </div>
-</div>
+   				</form>
+    			</div>
+    	</div>
+
+
 {% endif %}

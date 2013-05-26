@@ -340,6 +340,17 @@ class MovieMedia(models.Model):
     file_video=models.CharField(verbose_name='file_dettagli_video', max_length=255,blank=True,null=True)
     file_size=models.IntegerField(verbose_name="dimensione",blank=True,null=True,default=0)
     
+    
+    def get_file_name(self):
+        tmp=self.file.rfind('/')+1
+        tmp2=self.file[tmp:]
+        tmp3=tmp2.split('.')
+        tmp3.remove(tmp3[0])
+        tmp3.remove(tmp3[len(tmp3)-1])
+        tmp4=''
+        for tmp in tmp3:
+            tmp4+=tmp+ ' '
+        return tmp4
 #class foto_old(models.Model):
 #    film=models.ForeignKey(Movie,verbose_name="Movie")
 #    nome_file=models.CharField(verbose_name = "nome_file",max_length=100)

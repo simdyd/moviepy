@@ -1,15 +1,25 @@
-<section class="sidebar">
-			<a class="logo" href="/"></a>
-			<form method="get" id="searchform" action="#">
-				<input placeholder="Search..." type="text" name="s" id="s" />
-			</form>
-			<ul id="menu">
-				<li><a href="index.html">Dashboard<span class="icon1"></span></a></li>
+<!-- BEGIN SIDEBAR -->
+		<div id="sidebar" class="nav-collapse collapse">
+			<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+			<div class="sidebar-toggler hidden-phone"></div>
+			<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+			<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+			<div class="navbar-inverse">
+				<form class="navbar-search visible-phone">
+					<input type="text" class="search-query" placeholder="Search" />
+				</form>
+			</div>
+			<!-- END RESPONSIVE QUICK SEARCH FORM -->
+			<!-- BEGIN SIDEBAR MENU -->
+			<ul class="sidebar-menu">
+				
+				
 				{% include "film/elenco_generi.html" %}
 				{% include "film/elenco_supporti.html" %}
 				{% include "persone/elenco_professioni.html" %}
-              		
-				
-				
-			</ul><!--End of #menu-->
-		</section><!-- End of .sidebar -->
+				<li><a href="/dashboard/"><span class="icon-box"><i class="icon-user"></i></span>Dashboard</a></li>
+			</ul>
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->

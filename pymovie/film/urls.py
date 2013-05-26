@@ -5,6 +5,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('film',
      (r'^$', 'views.index'),
+     (r'dashboard/$', 'views.dashboard'),
      (r'mobile/$', 'views.index_mobile'),
      (r'mobile/genere/(?P<genere>[^/]+)/$', 'views.index_mobile'),
      

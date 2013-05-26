@@ -1,27 +1,29 @@
 
-		{% for media in filmmedia %}
+		{% for media in filmmedia_local %}
 		{% if forloop.first %}
-		<div class="box">
-	<h2>
-		Anteprima Video
-		<span class="l"></span><span class="r"></span>
-	</h2>
-	<div class="hide"><span class="s">Show</span><span class="h">Hide</span></div>
-	<div class="block">
-		<div class="block_in">
+			<div class="widget">
+		        <div class="widget-title">
+		           <h4><i class="icon-user"></i>Anteprima Video</h4>
+		           <span class="tools">
+		           <a href="javascript:;" class="icon-chevron-down"></a>
+		           <a href="javascript:;" class="icon-remove"></a>
+		           </span>                    
+		        </div>
+		        <div class="widget-body">
+		
 		{% endif %}
 			{% ifequal media.file_type client.allowed_preview %}
-			{% ifequal media.tipo 'local' %}
+			
 	
 			<video src="{{ media.file }}" controls="controls" type="video/{{ media.file_type }}">
 				your browser does not support the video tag
 			</video>
 	
-			{% endifequal %}
+			
 			{% endifequal %}
 			{% if forloop.last %}
 		</div>
 	</div>
-</div>
+
 		{% endif %}
 		{% endfor %}
